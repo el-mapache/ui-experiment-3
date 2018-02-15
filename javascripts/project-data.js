@@ -1,0 +1,74 @@
+const projects = [
+  {
+    "name": "RATings",
+    "tech": "ruby on rails, angular, postgresql",
+    "blurb": "San Francisco restaurant cleanliness scores",
+    "description": "RATings (pronounced RAT-ings) uses data from the city of San Francisco's health department to display an interactive map of restaurants in the city and their food safety inspection scores. Businesses are given a score of zero to four rats depending on the severity of their violations.  Historical scores and violations are provided as well as the status of the violations. The backend uses Rails to expose a simple API that feeds an Angular js front-end. This project was undertaken as an exercise in learning Angular js and to explore public data in a novel way.",
+    "uri": "http://ratings.availableforfriendship.com",
+    "repo": "https://github.com/el-mapache/caveat",
+    "file": "rats.jpg",
+    "available": true
+  },
+  {
+    "name": "Libre Ipsum",
+    "tech": "sinatra, redis, jquery",
+    "blurb": "Placeholder text generated from Project Gutenberg",
+    "description": "Libre Ipsum is a placeholder text generator that pulls material from Project Gutenberg, an online repository of books in the public domain. It fetches and parses a daily RSS feed that contains the latest books added to Project Gutenberg. The user chooses a book and a number of paragraphs; text from the book is displayed randomly. The backend is comprised of several pieces: a small Sinatra application to handle requests and process the books, a Redis database for simple IP based request throttling, and a text file which serves as a manifest of all available books. The front-end is written in jQuery.",
+    "uri": "http://libre-ipsum.availableforfriendship.com",
+    "repo": "https://github.com/el-mapache/libre-ipsum",
+    "file": "ipsum-2.jpg",
+    "available": true
+  },
+  {
+    "name": "Encoder",
+    "tech": "express, redis, angular",
+    "blurb": "ffmpeg-backed audio transcoder",
+    "description": "The first web app I created, Encoder is an audio transcoder that allows users to upload an audio file and convert it to one of several different formats. The file is processed using ffmpeg and an email is sent to the user with a link to the converted file. It uses Redis and a queueing library to manage file conversion and email jobs. This application was recently rewritten in Express from pure Node, with Angular providing the front-end functionality.",
+    "uri": "",
+    "repo": "https://github.com/el-mapache/encode",
+    "file": "encoder.jpg",
+    "available": false
+  },
+  {
+    "name": "Transmission",
+    "tech": "express, backbone",
+    "blurb": "Real-time file streaming between multiple peers",
+    "description": "Using Node's binary websocket library BinaryJS, this application allows for real-time file streaming from one connected client to each of the other connected clients. It chunks a file to the back-end server, and pipes the chunks to each client connection. Files are not stored on the server, they are assembled client-side and saved to the user's computer. The front-end is a small backbone application that utilizes the File API to recreate files from the original chunks of data.",
+    "uri": "",
+    "repo": "https://github.com/el-mapache/transmission",
+    "file": "transmission.jpg",
+    "available": false,
+  },
+  {
+    "name": "SC-Now Recorder",
+    "tech": "angular",
+    "blurb": "Record module for SourceNow browser-based audio app",
+    "description": "Recorder module written for Source-Elements' web only audio collaboration tool. Based on Matt Diamond's excellent RecorderJS library, this module makes a number of modifications. Rather than recording storing all audio in a single buffer, it writes many small files (using Chrome's FileSystem API) and then assembles them into a single WAV file once the recording is complete. This allows audio files of any duration to be recorded and saved without consuming all of the user's system's resources. Originally written as a stand-alone demo, I adapted it into an Angular application for use with Source-Elements' existing front-end infrastructure.",
+    "uri": "https://now.source-elements.com/#!/",
+    "repo": "https://github.com/el-mapache/cassette",
+    "file": "scnow.jpg",
+    "available": true,
+  },
+  {
+    "name": "Hero Quest",
+    "tech": "craftyjs",
+    "blurb": "JS versions of Milton Bradley's 90s board game",
+    "description": "A perpetual work in progress, this is a JavaScript implementation of one of my favorite boardgames as a kid. I wanted the experience of making a game, and the challenge of designing a large system composed of many smaller components. Character actions are added dynamically in the form of interfaces which wrap several components together, and a simple MVC structure glues together the user interface and the data models. This game includes implementations of A*, ray casting, and floodfill algorithms, generally adapted from Java or C to JavaScript.",
+    "uri": "",
+    "repo": "https://github.com/el-mapache/hero_quest",
+    "file": "hero-quest-2.jpg",
+    "available": false,
+  },
+  {
+    "name": "Minesweeper",
+    "tech": "react, webpack",
+    "blurb": "Minesweeper just like your Windows 3.1 used to make",
+    "description": "I wrote this Javascript implementation of minesweeper to get more comfortable using React. A handful of components, a simple store to hold the state of the game, and an implementation of the floodfill algorithm are the only pieces needed to recreate the game. \n\n In case you were wondering, this game is still super annoying to play.",
+    "uri": "https://el-mapache.github.io/minesweeper",
+    "repo": "https://github.com/el-mapache/minesweeper",
+    "file": "minesweeper-2.jpg",
+    "available": true,
+  },
+];
+
+export default projects;

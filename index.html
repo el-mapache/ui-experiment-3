@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="stylesheets/layout.css">
+    <link rel="stylesheet" href="stylesheets/site.css">
     <style>
       * {
+        box-sizing: border-box;
         margin: 0;
         padding: 0;
       }
 
       html, body {
-        height: 0;
-        width: 0;
-      }
-
-      .container {
-        width: 960px;
-        margin: 0 auto;
+        height: 100%;
+        width: 100%;
       }
 
       .carousel {
-        margin: 30px 0 0 30px;
-        counter-reset: counter;
+        background: #333;
         display: grid;
         grid-template-columns: 90% 10%;
         grid-gap: 20px;
+        grid-column: 1 / -1;
+        z-index: 100;
       }
 
       .carousel-container {
@@ -31,250 +31,157 @@
 
       .carousel-track.fixed {
         transform: none;
-        transition: transform .7s cubic-bezier(0.23, 1, 0.35, 1);
+        transition: transform .7s cubic-bezier(0.33, 1, 0.35, .99);
       }
 
       .carousel-track {
         display: flex;
-        list-style: none;
+        left: -33.33%;
         position: relative;
-        left: -33.333%;
-        transform: translateX(33.333%); 
+        transform: translateX(33.33%); 
+      }
+
+      .carousel-track:active, .carousel-track:focus {
+        outline: 0;
       }
 
       .slideable {
-        color: white;
-        flex: 1 0 33.333%;
-        height: 200px;
+        align-items: center;
         display: flex;
-        justify-content: center;
+        flex: 1 0 33.333%;
         order: 2;
+        position: relative;
+        filter: grayscale(90%);
+        opacity: .3;
+        transition: opacity .5s ease-in-out, filter .7s ease-in-out;
+      }
+
+      .current-item {
+        opacity: 1;
+        filter: none;
       }
 
       .slideable.active {
         order: 1;
       }
 
-      .slideable:before {
-        font-family: Helvetica;
-        font-size: 3.5em;
-        align-self: center;
-        counter-increment: counter;
-        content: counter(counter);
+      .orange-bg {
+        background-color: #E3927D;
       }
 
-      .slideable:nth-child(even) {
-        background: #AE83FF;
-      }
-
-      .slideable:nth-child(odd) {
-        background: #FF83F3;
-      }
-
-      .btn {
-        background: transparent;
-        border: 1px solid #333;
-        padding: 6px;
-        cursor: pointer;
+      .blue-bg {
+        background-color: #CD83FF;
       }
 
       .scale-and-fade {
         animation: scale-and-fade 0.7s ease-in-out;
       }
 
-      @keyframes scale-and-fade {
-        from {}
+      .scale-and-fade:after {
+        width: 100%;
+        height: 100%;
+        background: #AE83FF;
+        top: 0;
+        left: 0;
+        position: absolute;
+      }
+
+      .project-view-backing {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .drop-in-front {
+        animation: drop-in-front .7s ease-in;
+      }
+
+      .scale-in-back {
+        animation: scale-in-back .6s ease-in-out;
+      }
+      /* cubic-bezier(.99,.32,.23,.94); */
+      /* cubic-bezier(.87,.02,.23,.94); */
+      /* cubic-bezier(.16,.95,.48,.84); */
+      /* cubic-bezier(.95,.01,.23,.94) */
+      .relative {
+        position: relative;
+      }
+      .lipstick {
+        background-color: #714854;
+      }
+      .wine {
+        background-color: #66324C;
+      }
+      .blue {
+        background-color: #33384E;
+      }
+      .purple {
+        background-color: rgb(39, 39, 57);
+      }
+
+      .scale-out{animation: scale-out .6s linear;}
+      @keyframes scale-out {
         to {
-          transform: scale(0.8);
           opacity: 0;
+          transform: scale(.7);
+        }
+      }
+
+      @keyframes scale-in-back {
+        from {
+          opacity: 0;
+          transform: scale(0.8);
+        }
+        to {
+          opacity: 1 !important;
+          transform: scale(1) !important;
+        }
+      }
+
+      @keyframes scale-and-fade {
+        to {
+          opacity: 0;
+          transform: scale(0.7);
         }
       }
 
       .arrow-icon {
         align-self: center;
         cursor: pointer;
+        fill: white;
         width: 80px;
         transition: all 0.7s;
-        height:100%;
-        
+        height: 30%;
       }
 
       .arrow-icon:hover {
-        transform: translateX(10px);
+        fill: #CC2649;
+        transform: translateX(15px);
       }
 
       .arrow-icon:active, .arrow-icon:focus {
-        transform: translateX(10px) scale(1.1);
-        transition: all .2s;
-      }
-
-      .ripple {
-        animation: ripple .7s;
-      }
-
-      @keyframes ripple {
-        to {}
+        transform: translateX(15px) scale(1.1);
       }
     </style>
   </head>
   <body>
-    <main class="container">
-      <div class="carousel">
-        <div class="carousel-container">
-          <ul class="carousel-track fixed">
-            <li class="slideable"></li>
-            <li class="slideable"></li>
-            <li class="slideable"></li>
-            <li class="slideable"></li>
-            <li class="slideable"></li>
-            <li class="slideable"></li>
-            <li class="slideable"></li>
-            <li class="slideable"></li>
-            <li class="slideable"></li>
-            <li class="slideable"></li>
-            <li class="slideable"></li>
-            <li class="slideable active"></li>
-          </ul>
+    <main class="app container">      
+      <header class="sidebar info-pane">
+        <div class="header-title">
+          <h1 class="spacing sans">
+            ADAM BIAGIANTI
+          </h1>
         </div>
-        <svg role="button" class="arrow-icon carousel-control" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 476.213 476.213" style="enable-background:new 0 0 476.213 476.213;" xml:space="preserve">
-          <polygon points="405.606,167.5 384.394,188.713 418.787,223.106 0,223.106 0,253.106 418.787,253.106 384.394,287.5 
-            405.606,308.713 476.213,238.106 "/>
-        </svg>
-      </div>
-    </div>
-    <script>
-      const cssTransform = 'transform';
+        <h5 class="spacing sans mute">front-end web developer</h5>
 
-      class Node {
-        constructor({ value, next = null }) {
-          this.value = value;
-          this.next = next;
-        }
-      }
-
-      class List {
-        constructor() {
-          this.head = null;
-          this.tail = null;
-          this.current = null;
-          this.length = 0;
-        }
-
-        add(value) {
-          const node = new Node({ value });
-          if (!this.head) {
-            this.head = node;
-            this.current = this.head;
-          }
-
-          if (!this.tail) {
-            this.tail = node;
-          } else {
-            this.tail.next = node;
-            this.tail = node;
-          }
-
-          this.current = node;
-          this.length += 1;
-        }
-
-        next() {
-          const nextNode = this.current.next;
-
-          if (nextNode === null) {
-            this.current = this.head;
-            return this.head.value;
-          }
-
-          this.current = nextNode;
-          return nextNode.value;
-        }
-
-        lastAccessed() {
-          return this.current.value;
-        }
-
-        first() {
-          return this.head.value;
-        }
-
-        last() {
-          return this.tail.value;
-        }
-      }
-
-      class Carousel {
-        constructor({ el }) {
-          this.el = el;
-          this.track = this.el.querySelector('.carousel-track');
-          this.control = this.el.querySelector('.carousel-control');
-          this.items = this.generateItemList(this.el.querySelectorAll('.slideable'));          
-          this.itemWidth = this.items.first().getBoundingClientRect().width;
-          
-          this.handleAdvance = this.handleAdvance.bind(this);
-          this.bindEvents([
-            ['click', [this.handleAdvance]],
-          ]);
-        }
-
-        generateItemList(nodeList) {
-          const list = new List();
-
-          for (const node of nodeList) {
-            list.add(node);
-          }
-
-          return list;
-        }
-
-        bindEvents(descriptors) {
-          descriptors.forEach(handlerTuple => {
-            const [ event, handlers ]  = handlerTuple; 
-              
-            handlers.forEach(fn => this.control.addEventListener(event, fn));
-          });
-        }
-
-        nextItem() {
-          return this.items.next();
-        }
-
-        currentItem() {
-          return this.items.lastAccessed();
-        }
-
-        handleAdvance() {
-          const activeItem = this.currentItem();
-          const nextItem = this.nextItem();
-
-          this.track.classList.remove('fixed');
-          activeItem.classList.remove('active');
-          nextItem.classList.add('scale-and-fade');
-          nextItem.classList.add('active');
-          nextItem.style.setProperty('order', 1); 
-          
-          let next = nextItem;
-
-          for (let i = 1; i < this.items.length; i++) {
-            this.nextItem().style.setProperty('order', i + 1);
-          }
-
-          // advance the current item in the list one more space          
-          this.nextItem();
-
-          setTimeout(() => {
-            this.track.classList.add('fixed');
-          }, 100);
-
-          setTimeout(() => {
-            nextItem.classList.remove('scale-and-fade');
-          }, 700);
-        }
-      }
-
-      const carouselEl = document.querySelector('.carousel');
-      const c = new Carousel({ el: carouselEl });
-    </script>
+        <div class="grid-spacing" id="header-links">
+          <a class="link" rel="nofollow" target="_blank" href="https://github.com/el-mapache">
+            <strong>code on github</strong>
+          </a>
+        </div>
+      </header>
+      <section class="project-view"></section>
+      <div class="carousel"></div>
+    <script src="build/bundle.js"></script>
   </body>
 </html>
