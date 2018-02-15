@@ -37,7 +37,7 @@ var config = {
   },
   plugins: [
     new ExtractTextPlugin({
-      filename: 'build/[name].bundle.css',
+      filename: '[name].bundle.css',
       allChunks: true,
     })
   ]

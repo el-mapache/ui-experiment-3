@@ -1,0 +1,56 @@
+@mixin animation ($animation, $duration, $easing, $delay) {
+  -webkit-animation-delay: $delay;
+  -webkit-animation-duration: $duration;
+  -webkit-animation-name: $animation;
+  -webkit-animation-timing-function: $easing;
+  -webkit-animation-fill-mode: forwards;
+
+  -moz-animation-delay: $delay;
+  -moz-animation-duration: $duration;
+  -moz-animation-name: $animation;
+  -moz-animation-timing-function: $easing;
+  -moz-animation-fill-mode: forwards;
+
+  animation-delay: $delay;
+  animation-duration: $duration;
+  animation-name: $animation;
+  animation-timing-function: $easing;
+  animation-fill-mode: forwards;
+}
+
+@mixin keyframes($animation) {
+  @-webkit-keyframes #{$animation} {
+      @content;
+  }
+
+  @-moz-keyframes #{$animation} {
+      @content;
+  }
+
+  @keyframes #{$animation} {
+      @content;
+  }
+}
+
+// There is for sure a way to refactor all of this
+// still don't love this
+
+@mixin scale-and-fade-property($type, $size, $opacity) {
+  #{$type} {
+    opacity: $opacity;
+    transform: scale($size);
+  }
+}
+
+@mixin set-keyframes($name) {
+  @at-root {
+    @include keyframes($name) {
+      @content;
+    }
+  }
+}
+
+@mixin scale-and-fade($name, $duration, $easing, $delay) {
+  @include animation($name, $duration, $easing, $delay);
+  @content
+}

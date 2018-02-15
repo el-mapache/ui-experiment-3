@@ -4,184 +4,35 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="stylesheets/layout.css">
     <link rel="stylesheet" href="stylesheets/site.css">
+    <link rel="stylesheet" href="build/main.bundle.css">
     <style>
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-
-      html, body {
-        height: 100%;
-        width: 100%;
-      }
-
-      .carousel {
-        background: #333;
-        display: grid;
-        grid-template-columns: 90% 10%;
-        grid-gap: 20px;
-        grid-column: 1 / -1;
-        z-index: 100;
-      }
-
-      .carousel-container {
-        overflow: hidden;
-      }
-
-      .carousel-track.fixed {
-        transform: none;
-        transition: transform .7s cubic-bezier(0.33, 1, 0.35, .99);
-      }
-
-      .carousel-track {
-        display: flex;
-        left: -33.33%;
-        position: relative;
-        transform: translateX(33.33%); 
-      }
-
-      .carousel-track:active, .carousel-track:focus {
-        outline: 0;
-      }
-
-      .slideable {
-        align-items: center;
-        display: flex;
-        flex: 1 0 33.333%;
-        order: 2;
-        position: relative;
-        filter: grayscale(90%);
-        opacity: .3;
-        transition: opacity .5s ease-in-out, filter .7s ease-in-out;
-      }
-
-      .current-item {
-        opacity: 1;
-        filter: none;
-      }
-
-      .slideable.active {
-        order: 1;
-      }
-
-      .orange-bg {
-        background-color: #E3927D;
-      }
-
-      .blue-bg {
-        background-color: #CD83FF;
-      }
-
-      .scale-and-fade {
-        animation: scale-and-fade 0.7s ease-in-out;
-      }
-
-      .scale-and-fade:after {
-        width: 100%;
-        height: 100%;
-        background: #AE83FF;
-        top: 0;
-        left: 0;
-        position: absolute;
-      }
-
-      .project-view-backing {
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
-
-      .drop-in-front {
-        animation: drop-in-front .7s ease-in;
-      }
-
-      .scale-in-back {
-        animation: scale-in-back .6s ease-in-out;
-      }
-      /* cubic-bezier(.99,.32,.23,.94); */
-      /* cubic-bezier(.87,.02,.23,.94); */
-      /* cubic-bezier(.16,.95,.48,.84); */
-      /* cubic-bezier(.95,.01,.23,.94) */
-      .relative {
-        position: relative;
-      }
-      .lipstick {
-        background-color: #714854;
-      }
-      .wine {
-        background-color: #66324C;
-      }
-      .blue {
-        background-color: #33384E;
-      }
-      .purple {
-        background-color: rgb(39, 39, 57);
-      }
-
-      .scale-out{animation: scale-out .6s linear;}
-      @keyframes scale-out {
-        to {
-          opacity: 0;
-          transform: scale(.7);
-        }
-      }
-
-      @keyframes scale-in-back {
-        from {
-          opacity: 0;
-          transform: scale(0.8);
-        }
-        to {
-          opacity: 1 !important;
-          transform: scale(1) !important;
-        }
-      }
-
-      @keyframes scale-and-fade {
-        to {
-          opacity: 0;
-          transform: scale(0.7);
-        }
-      }
-
-      .arrow-icon {
-        align-self: center;
-        cursor: pointer;
-        fill: white;
-        width: 80px;
-        transition: all 0.7s;
-        height: 30%;
-      }
-
-      .arrow-icon:hover {
-        fill: #CC2649;
-        transform: translateX(15px);
-      }
-
-      .arrow-icon:active, .arrow-icon:focus {
-        transform: translateX(15px) scale(1.1);
+      .preloader {
+        background: #fff url('../images/preloader.gif') center center no-repeat;
+        box-shadow: inset 0px 0px 2px rgb(225, 225, 225);
+        display: inline-block;
+        z-index: 0;
       }
     </style>
   </head>
   <body>
-    <main class="app container">      
-      <header class="sidebar info-pane">
+    <main class="app">      
+      <header class="human-view">
         <div class="header-title">
-          <h1 class="spacing sans">
+          <h1 class="grid-spacing">
             ADAM BIAGIANTI
           </h1>
         </div>
-        <h5 class="spacing sans mute">front-end web developer</h5>
+        <h5 class="grid-spacing mute">front-end web developer</h5>
 
-        <div class="grid-spacing" id="header-links">
+        <div class="grid-spacing">
           <a class="link" rel="nofollow" target="_blank" href="https://github.com/el-mapache">
             <strong>code on github</strong>
           </a>
         </div>
       </header>
       <section class="project-view"></section>
-      <div class="carousel"></div>
+      <section class="carousel"></section>
+    </main>
     <script src="build/bundle.js"></script>
   </body>
 </html>

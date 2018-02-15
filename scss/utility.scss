@@ -1,0 +1,39 @@
+.hide {
+  opacity: 0 !important;
+}
+
+.inline {
+  display: inline-block;
+}
+
+.grid-spacing {
+  margin-top: $med;
+  margin-bottom: $med;
+}
+
+.link {
+  -webkit-transition: color 0.2s ease;
+  -moz-transition: color 0.2s ease;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $red;
+  }
+}
+
+.relative {
+  position: relative;
+}
+
+.lipstick {
+  background-color: $pink-lipstick;
+}
+.wine {
+  background-color: $wine;
+}
+.blue {
+  background-color: $ocean;
+}
+.purple {
+  background-color: $night;
+}

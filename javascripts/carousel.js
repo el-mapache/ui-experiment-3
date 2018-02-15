@@ -54,7 +54,7 @@ class Carousel extends SimpleView {
       if (!index) {
         classes = 'current-item';
       } else if (index === sources.length - 1) {
-        classes = 'active';
+        classes = 'pivot';
       }
 
       return imageTemplate({ src, classes, index });
@@ -103,8 +103,8 @@ class Carousel extends SimpleView {
     this.animating = true;
 
     this.track.classList.remove('fixed');
-    activeItem.classList.remove('active');
-    currentItem.classList.add('scale-and-fade', 'active');
+    activeItem.classList.remove('pivot');
+    currentItem.classList.add('scale-out', 'pivot');
     currentItem.style.setProperty('order', 1);
 
     const nextItem = this.nextItem();
@@ -127,8 +127,7 @@ class Carousel extends SimpleView {
     }, 0); // delay this till the next stack frame
 
     setTimeout(() => {
-      currentItem.classList.remove('current-item');
-      nextItem.classList.remove('scale-and-fade');
+      currentItem.classList.remove('current-item', 'scale-out');
       this.animating = false;
     }, 700); // magic number is amount of milliseconds of the scale-and-fade animation
   }

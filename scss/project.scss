@@ -1,0 +1,50 @@
+.project-view {
+  height: 100%;
+  position: relative;
+  width: 100%;
+
+  .project-view-content {
+    color: white;
+    display: grid;
+    grid-gap: $med;
+    grid-template-columns: 50% 50%;
+    height: 100%;
+    padding: 0px $med 0px $med;
+    transform: none;
+
+    .project-info {
+      align-self: center;
+      color: $white;
+      line-height: $med-line-height;
+    }
+  
+    .project-metadata {
+      align-self: center;
+      color: $white
+    }
+  }
+
+  .scale-out {
+    @include scale-and-fade(scale-and-fade-out, .6s, linear, 0) {
+      @include set-keyframes(scale-and-fade-out) {
+        @include scale-and-fade-property(to, .7, 0);
+      }
+    }
+  }
+
+  .scale-in {
+    @include scale-and-fade(scale-and-fade-in, .6s, linear, 0) {
+      @include set-keyframes(scale-and-fade-in) {
+        @include scale-and-fade-property(from, .8, 0);
+        @include scale-and-fade-property(to, 1, 1);
+      }
+    } 
+  }
+}
+
+.backing-project-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+

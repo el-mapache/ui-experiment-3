@@ -486,7 +486,7 @@ function ImagePreloader({ imageSelector, containerNode, options = {} }) {
 let count = 0;
 const projectTemplate = ({ src, description, name, blurb, tech }) => {
   return ` 
-      <div class="project-view-content lipstick">
+      <article class="project-view-content lipstick">
         <div class="project-info">
           <p>${description}</p>
         </div>
@@ -495,7 +495,7 @@ const projectTemplate = ({ src, description, name, blurb, tech }) => {
           <h3>${tech}</h3>
           <h4>${blurb}</h4>
         </div>
-      </div>
+      </article>
     `;
 };
 
@@ -534,25 +534,25 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
       setTimeout(() => {
         const oldChild = this.el.firstElementChild;
 
-        this.fragment.firstElementChild.classList.add('scale-in-back', 'project-view-backing');
+        this.fragment.firstElementChild.classList.add('scale-in', 'backing-project-view');
         this.el.appendChild(this.fragment);
 
-        oldChild.classList.add('project-view-backing', 'scale-out');
+        oldChild.classList.add('backing-project-view', 'scale-out');
 
         if (count % 2) {
           this.el.children[1].classList.add('wine');
         } else if (count % 3) {
-          this.el.children[1].classList.add('purple');
-        } else {
           this.el.children[1].classList.add('blue');
+        } else {
+          this.el.children[1].classList.add('purple');
         }
 
         setTimeout(() => {
           this.el.removeChild(oldChild);
-          this.el.firstElementChild.classList.remove('project-view-backing', 'scale-in-back');
+          this.el.firstElementChild.classList.remove('backing-project-view', 'scale-in');
           count += 1;
         }, 700);
-      }, 0);
+      }, 200);
     }
   }
 }
@@ -565,9 +565,7 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_linked_list__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_utils__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_simple_view__ = __webpack_require__(0);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_simple_view__ = __webpack_require__(0);
 
 
 
@@ -596,7 +594,7 @@ const carouselTemplate = images => {
   `;
 };
 
-class Carousel extends __WEBPACK_IMPORTED_MODULE_2_simple_view__["a" /* default */] {
+class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default */] {
   constructor({ el, sources, props = {} }) {
     super({ el });
 
@@ -621,7 +619,7 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_2_simple_view__["a" /* default 
       if (!index) {
         classes = 'current-item';
       } else if (index === sources.length - 1) {
-        classes = 'active';
+        classes = 'pivot';
       }
 
       return imageTemplate({ src, classes, index });
@@ -670,8 +668,8 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_2_simple_view__["a" /* default 
     this.animating = true;
 
     this.track.classList.remove('fixed');
-    activeItem.classList.remove('active');
-    currentItem.classList.add('scale-and-fade', 'active');
+    activeItem.classList.remove('pivot');
+    currentItem.classList.add('scale-out', 'pivot');
     currentItem.style.setProperty('order', 1);
 
     const nextItem = this.nextItem();
@@ -694,8 +692,7 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_2_simple_view__["a" /* default 
     }, 0); // delay this till the next stack frame
 
     setTimeout(() => {
-      currentItem.classList.remove('current-item');
-      nextItem.classList.remove('scale-and-fade');
+      currentItem.classList.remove('current-item', 'scale-out');
       this.animating = false;
     }, 700); // magic number is amount of milliseconds of the scale-and-fade animation
   }
@@ -811,61 +808,6 @@ class List {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var _this = this;
-
-const debounce = (fn, delayTime, immediate) => {
-  let timeout;
-
-  return (...args) => {
-    const later = () => {
-      timeout = null;
-      fn.apply(null, args);
-    };
-    const callNow = !timeout && immediate ? true : false;
-
-    clearTimeout(timeout);
-    timeout = setTimeout(later, delayTime);
-
-    if (callNow) {
-      fn.apply(null, args);
-    }
-  };
-};
-/* unused harmony export debounce */
-
-
-const throttle = (callback, wait, context = _this) => {
-  let timeout;
-  let last = 0;
-  let fnArgs;
-
-  const later = () => callback.apply(context, fnArgs);
-
-  return (...args) => {
-    const now = +new Date();
-    if (!last || now > last + wait) {
-      last = now;
-      callback.apply(context, args);
-    } else {
-      clearTimeout(timeout);
-      fnArgs = args;
-      last = now;
-      timeout = setTimeout(later, wait);
-    }
-  };
-};
-/* unused harmony export throttle */
-
 
 /***/ })
 /******/ ]);

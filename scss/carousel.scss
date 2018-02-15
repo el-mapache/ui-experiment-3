@@ -1,0 +1,82 @@
+.carousel {
+  background: #333;
+  display: grid;
+  grid-column: 1 / -1;
+  grid-gap: 20px;
+  grid-template-columns: 90% 10%;
+  z-index: 100;
+
+  .carousel-container {
+    overflow: hidden;
+  }
+  
+  .carousel-track {
+    display: flex;
+    left: -33.33%;
+    position: relative;
+    transform: translateX(33.33%);
+  
+    &.fixed {
+      transform: none;
+      transition: transform .7s cubic-bezier(0.33, 1, 0.35, .99);
+    }
+  
+    &:active, &:focus {
+      outline: 0;
+    }
+  }
+  
+  .slideable {
+    align-items: center;
+    display: flex;
+    filter: grayscale(90%);
+    flex: 1 0 33.333%;
+    opacity: .3;
+    order: 2;
+    position: relative;
+    transition: opacity .5s ease-in-out, filter .7s ease-in-out;
+  }
+
+  .pivot {
+    order: 1;
+  }
+
+  .current-item {
+    filter: none;
+    opacity: 1;
+  }
+
+  .arrow-icon {
+    align-self: center;
+    cursor: pointer;
+    fill: white;
+    width: 80px;
+    transition: all 0.7s;
+    height: 30%;
+
+    &:hover {
+      fill: #CC2649;
+      transform: translateX(15px);
+    }
+
+    &:active, &:focus {
+      transform: translateX(15px) scale(1.1);
+    }
+  }
+
+  .scale-out {
+    @include scale-and-fade(scale-and-fade-out, .7s, ease-in-out, 0) {
+      @include set-keyframes(scale-and-fade-out) {
+        @include scale-and-fade-property(to, .2, 0);
+      }
+    }
+
+    &:after {
+      height: 100%;
+      left: 0;      
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+  }
+}

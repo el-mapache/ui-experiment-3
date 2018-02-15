@@ -1,0 +1,65 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: $black;
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  font-size: $base-font-size;
+  position: relative;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+  width: 100%;
+}
+
+strong {
+  color: $black;
+}
+
+a {
+  text-decoration: underline;
+}
+
+a, button,
+a:focus, button:focus {
+  outline: none !important;
+}
+
+h1 {
+  line-height: 1.0;
+}
+
+h1 small,
+h2 small {
+  font-size: 70%;
+  color: inherit;
+}
+
+h5 {
+  font-weight: 200;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 15% 85%;
+  grid-template-rows: 70% 30%;
+  grid-row: 2;
+  height: 100vh;
+  overflow: hidden;
+}
+

@@ -3,7 +3,7 @@ let count = 0;
 const projectTemplate = ({ src, description, name, blurb, tech }) => {
   return (
     ` 
-      <div class="project-view-content lipstick">
+      <article class="project-view-content lipstick">
         <div class="project-info">
           <p>${description}</p>
         </div>
@@ -12,7 +12,7 @@ const projectTemplate = ({ src, description, name, blurb, tech }) => {
           <h3>${tech}</h3>
           <h4>${blurb}</h4>
         </div>
-      </div>
+      </article>
     `
   );
 };
@@ -56,25 +56,25 @@ class ProjectView extends SimpleView {
       setTimeout(() => {
         const oldChild = this.el.firstElementChild;
 
-        this.fragment.firstElementChild.classList.add('scale-in-back', 'project-view-backing')
+        this.fragment.firstElementChild.classList.add('scale-in', 'backing-project-view')
         this.el.appendChild(this.fragment);
   
-        oldChild.classList.add('project-view-backing', 'scale-out');
+        oldChild.classList.add('backing-project-view', 'scale-out');
   
         if (count % 2) {
           this.el.children[1].classList.add('wine');
         } else if (count % 3) {
-          this.el.children[1].classList.add('purple');
-        } else {
           this.el.children[1].classList.add('blue');
+        } else {
+          this.el.children[1].classList.add('purple');
         }
   
         setTimeout(() => {
           this.el.removeChild(oldChild);
-          this.el.firstElementChild.classList.remove('project-view-backing', 'scale-in-back');
+          this.el.firstElementChild.classList.remove('backing-project-view', 'scale-in');
           count+=1;
         }, 700);
-      }, 0);  
+      }, 200);  
 
     }
   }

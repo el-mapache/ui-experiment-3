@@ -1,0 +1,273 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0; }
+
+html, body {
+  height: 100%;
+  width: 100%; }
+
+body {
+  background: #333;
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  font-size: 16px;
+  position: relative; }
+
+ul {
+  list-style: none; }
+
+img {
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+  width: 100%; }
+
+strong {
+  color: #333; }
+
+a {
+  text-decoration: underline; }
+
+a, button,
+a:focus, button:focus {
+  outline: none !important; }
+
+h1 {
+  line-height: 1.0; }
+
+h1 small,
+h2 small {
+  font-size: 70%;
+  color: inherit; }
+
+h5 {
+  font-weight: 200; }
+
+.app {
+  display: grid;
+  grid-template-columns: 15% 85%;
+  grid-template-rows: 70% 30%;
+  grid-row: 2;
+  height: 100vh;
+  overflow: hidden; }
+
+.hide {
+  opacity: 0 !important; }
+
+.inline {
+  display: inline-block; }
+
+.grid-spacing {
+  margin-top: 20px;
+  margin-bottom: 20px; }
+
+.link {
+  -webkit-transition: color 0.2s ease;
+  -moz-transition: color 0.2s ease;
+  transition: color 0.2s ease; }
+  .link:hover {
+    color: #CC2649; }
+
+.relative {
+  position: relative; }
+
+.lipstick {
+  background-color: #714854; }
+
+.wine {
+  background-color: #66324C; }
+
+.blue {
+  background-color: #33384E; }
+
+.purple {
+  background-color: #27273B; }
+
+.human-view {
+  background: #fff;
+  min-height: 100%;
+  padding: 10px; }
+
+.header-title {
+  border-bottom: 4px solid #CC2649;
+  color: #33384E;
+  font-size: 1.3em; }
+
+.project-view {
+  height: 100%;
+  position: relative;
+  width: 100%; }
+  .project-view .project-view-content {
+    color: white;
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 50% 50%;
+    height: 100%;
+    padding: 0px 20px 0px 20px;
+    transform: none; }
+    .project-view .project-view-content .project-info {
+      align-self: center;
+      color: #fff;
+      line-height: 1.5em; }
+    .project-view .project-view-content .project-metadata {
+      align-self: center;
+      color: #fff; }
+  .project-view .scale-out {
+    -webkit-animation-delay: 0;
+    -webkit-animation-duration: 0.6s;
+    -webkit-animation-name: scale-and-fade-out;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-delay: 0;
+    -moz-animation-duration: 0.6s;
+    -moz-animation-name: scale-and-fade-out;
+    -moz-animation-timing-function: linear;
+    -moz-animation-fill-mode: forwards;
+    animation-delay: 0;
+    animation-duration: 0.6s;
+    animation-name: scale-and-fade-out;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards; }
+
+@-webkit-keyframes scale-and-fade-out {
+  to {
+    opacity: 0;
+    transform: scale(0.7); } }
+
+@-moz-keyframes scale-and-fade-out {
+  to {
+    opacity: 0;
+    transform: scale(0.7); } }
+
+@keyframes scale-and-fade-out {
+  to {
+    opacity: 0;
+    transform: scale(0.7); } }
+  .project-view .scale-in {
+    -webkit-animation-delay: 0;
+    -webkit-animation-duration: 0.6s;
+    -webkit-animation-name: scale-and-fade-in;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-delay: 0;
+    -moz-animation-duration: 0.6s;
+    -moz-animation-name: scale-and-fade-in;
+    -moz-animation-timing-function: linear;
+    -moz-animation-fill-mode: forwards;
+    animation-delay: 0;
+    animation-duration: 0.6s;
+    animation-name: scale-and-fade-in;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards; }
+
+@-webkit-keyframes scale-and-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8); }
+  to {
+    opacity: 1;
+    transform: scale(1); } }
+
+@-moz-keyframes scale-and-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8); }
+  to {
+    opacity: 1;
+    transform: scale(1); } }
+
+@keyframes scale-and-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8); }
+  to {
+    opacity: 1;
+    transform: scale(1); } }
+
+.backing-project-view {
+  position: absolute;
+  top: 0;
+  left: 0; }
+
+.carousel {
+  background: #333;
+  display: grid;
+  grid-column: 1 / -1;
+  grid-gap: 20px;
+  grid-template-columns: 90% 10%;
+  z-index: 100; }
+  .carousel .carousel-container {
+    overflow: hidden; }
+  .carousel .carousel-track {
+    display: flex;
+    left: -33.33%;
+    position: relative;
+    transform: translateX(33.33%); }
+    .carousel .carousel-track.fixed {
+      transform: none;
+      transition: transform 0.7s cubic-bezier(0.33, 1, 0.35, 0.99); }
+    .carousel .carousel-track:active, .carousel .carousel-track:focus {
+      outline: 0; }
+  .carousel .slideable {
+    align-items: center;
+    display: flex;
+    filter: grayscale(90%);
+    flex: 1 0 33.333%;
+    opacity: .3;
+    order: 2;
+    position: relative;
+    transition: opacity .5s ease-in-out, filter .7s ease-in-out; }
+  .carousel .pivot {
+    order: 1; }
+  .carousel .current-item {
+    filter: none;
+    opacity: 1; }
+  .carousel .arrow-icon {
+    align-self: center;
+    cursor: pointer;
+    fill: white;
+    width: 80px;
+    transition: all 0.7s;
+    height: 30%; }
+    .carousel .arrow-icon:hover {
+      fill: #CC2649;
+      transform: translateX(15px); }
+    .carousel .arrow-icon:active, .carousel .arrow-icon:focus {
+      transform: translateX(15px) scale(1.1); }
+  .carousel .scale-out {
+    -webkit-animation-delay: 0;
+    -webkit-animation-duration: 0.7s;
+    -webkit-animation-name: scale-and-fade-out;
+    -webkit-animation-timing-function: ease-in-out;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-delay: 0;
+    -moz-animation-duration: 0.7s;
+    -moz-animation-name: scale-and-fade-out;
+    -moz-animation-timing-function: ease-in-out;
+    -moz-animation-fill-mode: forwards;
+    animation-delay: 0;
+    animation-duration: 0.7s;
+    animation-name: scale-and-fade-out;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards; }
+
+@-webkit-keyframes scale-and-fade-out {
+  to {
+    opacity: 0;
+    transform: scale(0.2); } }
+
+@-moz-keyframes scale-and-fade-out {
+  to {
+    opacity: 0;
+    transform: scale(0.2); } }
+
+@keyframes scale-and-fade-out {
+  to {
+    opacity: 0;
+    transform: scale(0.2); } }
+    .carousel .scale-out:after {
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%; }
