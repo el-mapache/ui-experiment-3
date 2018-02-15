@@ -1,5 +1,4 @@
 import { List } from 'linked-list';
-import { throttle } from 'app-utils';
 import SimpleView from 'simple-view';
 
 const imageTemplate = ({ src, classes, index }) => {
