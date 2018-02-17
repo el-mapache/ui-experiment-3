@@ -9,3 +9,18 @@
   color: $ocean;
   font-size: 1em;
 }
+
+@include media-query-medium {
+  .human-view {
+    grid-column: 1 / -1;
+    height: auto;
+    min-height: auto;
+    text-align: center;
+    width: 100%;
+  }
+
+  .header-title {
+    margin: 0 auto;
+    width: 50%;
+  }
+}

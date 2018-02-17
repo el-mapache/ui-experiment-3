@@ -15,3 +15,9 @@ $small: 10px;
 $med: 20px;
 
 $med-line-height: 1.5em;
+
+$small-media-query: 480px;
+$med-media-query: 768px;
+$large-media-query: 991px;
+
+$image-ratio: percentage((100 / (900 / 474)) * .01)

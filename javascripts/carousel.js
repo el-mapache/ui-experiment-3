@@ -133,4 +133,21 @@ class Carousel extends SimpleView {
   }
 }
 
+/**
+ * click functionality
+ * user clicks on image:
+ * 
+ * 1.lookup image at that index in the linked list
+ * 2. set current node
+ * 3. scroll carousel that many spaces - 1 (will only be max 2?)
+ *    one issue is that the carousel scroll is coupled to the number of elements/the width
+ *      might need a way to programatically specify?
+ * run handle advance
+ * 
+ * So optimistically, the user clicks on the next image, call handle advance
+ * otherwise, scroll the carousel left 1 element, then run handleAdvance
+ * 
+ * probably going to have to set the carousel-track transform using JS and inline style...
+ */
+
 export default Carousel;

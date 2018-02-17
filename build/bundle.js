@@ -551,8 +551,10 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
 
         if (count % 2) {
           this.el.children[1].classList.add('blue');
-        } else {
+        } else if (count % 3) {
           this.el.children[1].classList.add('purple');
+        } else {
+          this.el.children[1].classList.add('lipstick');
         }
 
         setTimeout(() => {
@@ -707,6 +709,23 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default 
   }
 }
 
+/**
+ * click functionality
+ * user clicks on image:
+ * 
+ * 1.lookup image at that index in the linked list
+ * 2. set current node
+ * 3. scroll carousel that many spaces - 1 (will only be max 2?)
+ *    one issue is that the carousel scroll is coupled to the number of elements/the width
+ *      might need a way to programatically specify?
+ * run handle advance
+ * 
+ * So optimistically, the user clicks on the next image, call handle advance
+ * otherwise, scroll the carousel left 1 element, then run handleAdvance
+ * 
+ * probably going to have to set the carousel-track transform using JS and inline style...
+ */
+
 /* harmony default export */ __webpack_exports__["a"] = (Carousel);
 
 /***/ }),
@@ -759,6 +778,19 @@ class List {
 
     this.current = nextNode;
     return nextNode.value;
+  }
+
+  get(index) {
+    let node;
+    let count = 0;
+
+    while (count < index) {
+      node = node.next;
+      count += 1;
+    }
+
+    this.currentNode = node;
+    return node;
   }
 
   lastAccessed() {

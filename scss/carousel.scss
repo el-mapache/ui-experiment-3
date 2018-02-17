@@ -18,7 +18,7 @@
   
     &.fixed {
       transform: none;
-      transition: transform .7s cubic-bezier(0.33, 1, 0.35, .99);
+      transition: transform .7s cubic-bezier(.33, 1, .35, .99);
     }
   
     &:active, &:focus {
@@ -50,9 +50,10 @@
     align-self: center;
     cursor: pointer;
     fill: white;
-    width: 80px;
-    transition: transform 0.4s, fill 0.25s;
     height: 30%;
+    justify-self: center;
+    transition: transform 0.4s, fill 0.25s;
+    width: 80px;
 
     &:hover {
       fill: #CC2649;
@@ -67,7 +68,7 @@
   .scale-out {
     @include scale-and-fade(scale-and-fade-out, .7s, ease-in-out, 0) {
       @include set-keyframes(scale-and-fade-out) {
-        @include scale-and-fade-property(to, .2, 0);
+        @include scale-and-fade-property(to, .5, 0);
       }
     }
 
@@ -77,6 +78,46 @@
       position: absolute;
       top: 0;
       width: 100%;
+    }
+  }
+}
+
+@include media-query-large {
+  .carousel {
+    grid-gap: 0;
+
+    .carousel-track {
+      left: -50%;
+      transform: translate(50%);
+    }
+
+    .slideable {
+      flex: 1 0 50%;
+    }
+
+    .arrow-icon {
+      transform: none !important;
+      transition: none;
+    }
+
+    .arrow-icon {
+      justify-self: left;
+    }
+  }
+}
+
+@include media-query-medium {
+  .carousel {
+    grid-gap: 0px;
+    grid-template-columns: 80% 20%;
+
+    .carousel-track {
+      left: -100%;
+      transform: translateX(100%);
+    }
+
+    .slideable {
+      flex: 1 0 100%;
     }
   }
 }

@@ -51,6 +51,13 @@ h5 {
   grid-row: 2;
   height: 100vh;
   overflow: hidden; }
+  @media only screen and (max-width: 991px) {
+    .app {
+      grid-template-columns: 25% 75%; } }
+  @media only screen and (max-width: 768px) {
+    .app {
+      grid-template-columns: 100%;
+      grid-template-rows: 20% 60% 20%; } }
 
 .hide {
   opacity: 0 !important; }
@@ -61,6 +68,10 @@ h5 {
 .grid-spacing {
   margin-top: 20px;
   margin-bottom: 20px; }
+  @media only screen and (max-width: 768px) {
+    .grid-spacing {
+      margin-top: 10px;
+      margin-bottom: 10px; } }
 
 .link {
   -webkit-transition: color 0.2s ease;
@@ -103,6 +114,17 @@ h5 {
   color: #33384E;
   font-size: 1em; }
 
+@media only screen and (max-width: 768px) {
+  .human-view {
+    grid-column: 1 / -1;
+    height: auto;
+    min-height: auto;
+    text-align: center;
+    width: 100%; }
+  .header-title {
+    margin: 0 auto;
+    width: 50%; } }
+
 .project-view {
   height: 100%;
   position: relative;
@@ -119,14 +141,8 @@ h5 {
       color: #fff;
       grid-column: 2;
       grid-row: 1 / -1;
-      line-height: 1.5em;
       margin: 0 auto;
       width: 100%; }
-    .project-view .project-view-content .project-metadata {
-      align-self: center;
-      color: #fff;
-      grid-column: 2;
-      grid-row: 1; }
     .project-view .project-view-content .project-title {
       background-color: #fff;
       grid-column: 1;
@@ -223,6 +239,36 @@ h5 {
   top: 0;
   left: 0; }
 
+@media only screen and (max-width: 991px) {
+  .project-view .project-view-content {
+    grid-template-columns: 100%;
+    grid-template-rows: 50% 50%; }
+    .project-view .project-view-content .hero-image {
+      grid-column: 1;
+      grid-row: 1; }
+    .project-view .project-view-content .project-title {
+      grid-row: 2;
+      overflow-y: scroll;
+      padding-left: 0; } }
+
+@media only screen and (max-width: 768px) {
+  .project-view {
+    background: white;
+    grid-template-columns: 100%;
+    height: 100%;
+    width: 100%;
+    z-index: 200; }
+    .project-view .project-view-content {
+      grid-template-columns: 100%;
+      grid-template-rows: 100%;
+      height: 100%; }
+      .project-view .project-view-content .hero-image {
+        display: none; }
+      .project-view .project-view-content .project-title {
+        grid-column: 1;
+        grid-row: 1;
+        padding: 10px; } }
+
 .carousel {
   background: #333;
   display: grid;
@@ -260,9 +306,10 @@ h5 {
     align-self: center;
     cursor: pointer;
     fill: white;
-    width: 80px;
+    height: 30%;
+    justify-self: center;
     transition: transform 0.4s, fill 0.25s;
-    height: 30%; }
+    width: 80px; }
     .carousel .arrow-icon:hover {
       fill: #CC2649;
       transform: translateX(15px); }
@@ -288,20 +335,44 @@ h5 {
 @-webkit-keyframes scale-and-fade-out {
   to {
     opacity: 0;
-    transform: scale(0.2); } }
+    transform: scale(0.5); } }
 
 @-moz-keyframes scale-and-fade-out {
   to {
     opacity: 0;
-    transform: scale(0.2); } }
+    transform: scale(0.5); } }
 
 @keyframes scale-and-fade-out {
   to {
     opacity: 0;
-    transform: scale(0.2); } }
+    transform: scale(0.5); } }
     .carousel .scale-out:after {
       height: 100%;
       left: 0;
       position: absolute;
       top: 0;
       width: 100%; }
+
+@media only screen and (max-width: 991px) {
+  .carousel {
+    grid-gap: 0; }
+    .carousel .carousel-track {
+      left: -50%;
+      transform: translate(50%); }
+    .carousel .slideable {
+      flex: 1 0 50%; }
+    .carousel .arrow-icon {
+      transform: none !important;
+      transition: none; }
+    .carousel .arrow-icon {
+      justify-self: left; } }
+
+@media only screen and (max-width: 768px) {
+  .carousel {
+    grid-gap: 0px;
+    grid-template-columns: 80% 20%; }
+    .carousel .carousel-track {
+      left: -100%;
+      transform: translateX(100%); }
+    .carousel .slideable {
+      flex: 1 0 100%; } }

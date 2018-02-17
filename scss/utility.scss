@@ -9,6 +9,11 @@
 .grid-spacing {
   margin-top: $med;
   margin-bottom: $med;
+
+  @include media-query-medium {
+    margin-top: $small;
+    margin-bottom: $small;
+  }
 }
 
 .link {

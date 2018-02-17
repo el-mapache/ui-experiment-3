@@ -64,8 +64,10 @@ class ProjectView extends SimpleView {
   
         if (count % 2) {
           this.el.children[1].classList.add('blue');          
-        } else {
+        } else if (count % 3) {
           this.el.children[1].classList.add('purple');
+        } else {
+          this.el.children[1].classList.add('lipstick');
         }
   
         setTimeout(() => {

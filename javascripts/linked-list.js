@@ -43,6 +43,19 @@ class List {
     return nextNode.value;
   }
 
+  get(index) {
+    let node;
+    let count = 0;
+    
+    while (count < index) {
+      node = node.next;
+      count += 1;
+    }
+
+    this.currentNode = node;
+    return node;
+  }
+
   lastAccessed() {
     return this.current.value;
   }
