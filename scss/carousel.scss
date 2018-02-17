@@ -121,3 +121,16 @@
     }
   }
 }
+
+@media screen and (min-width: 481px) and (max-width: 568px) {
+  .carousel {
+    .carousel-track {
+      left: -50%;
+      transform: translateX(50%);
+    }
+
+    .slideable {
+      flex: 1 0 50%;
+    }
+  }
+}
