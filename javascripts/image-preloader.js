@@ -75,7 +75,7 @@ function ImagePreloader({ imageSelector, containerNode, options = {} }) {
 
     icon.onload = callback;
     icon.style.display = 'none';
-    icon.src = '../images/preloader.gif';
+    icon.src = 'images/preloader.gif';
     document.body.appendChild(icon);
   }
 
