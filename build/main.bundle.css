@@ -49,7 +49,7 @@ h5 {
   grid-template-columns: 20% 80%;
   grid-template-rows: 80% 20%;
   grid-row: 2;
-  height: 100vh;
+  height: 100%;
   overflow: hidden; }
   @media only screen and (max-width: 991px) {
     .app {

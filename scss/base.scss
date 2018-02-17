@@ -60,7 +60,7 @@ h5 {
   grid-template-columns: 20% 80%;
   grid-template-rows: 80% 20%;
   grid-row: 2;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
 
   @include media-query-large {
