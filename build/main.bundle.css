@@ -84,6 +84,15 @@ h5 {
 .purple {
   background-color: #27273B; }
 
+.hide-node {
+  -webkit-transition: all 0.25s ease;
+  -moz-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+  opacity: 0; }
+
+.show-node {
+  opacity: 1; }
+
 .human-view {
   background: #fff;
   min-height: 100%;

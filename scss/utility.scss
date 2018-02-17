@@ -28,12 +28,27 @@
 .lipstick {
   background-color: $pink-lipstick;
 }
+
 .wine {
   background-color: $wine;
 }
+
 .blue {
   background-color: $ocean;
 }
+
 .purple {
   background-color: $night;
 }
+
+.hide-node {
+  -webkit-transition: all 0.25s ease;
+  -moz-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+  opacity: 0
+}
+
+.show-node {
+  opacity: 1;
+}
+

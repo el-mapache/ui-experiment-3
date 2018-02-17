@@ -52,7 +52,9 @@ new ImagePreloader({
   imageSelector: 'img',
   containerNode: document,
   options: {},
+}).then((preloadFn) => {
+  carousel.render();
+  projectView.render();
+  preloadFn();
 });
-carousel.render();
-projectView.render();
 

@@ -56,11 +56,10 @@ function ImagePreloader({ imageSelector, containerNode, options = {} }) {
 
   function setImageStyle(img) {
     img.style.visibility = 'hidden';
-    img.className = img.className + ' hide-image';
+    img.className = img.className + ' hide-node';
   }
 
   function wrap(node) {
-    console.log('butwrap')
     var wrapper = document.createElement(finalOpts.wrapperNode);
     wrapper.className = preloaderClass;
 
@@ -101,7 +100,7 @@ function ImagePreloader({ imageSelector, containerNode, options = {} }) {
 
   function onShowImage(image) {
     return function() {
-      image.className = image.className + ' show-image';
+      image.className = image.className + ' show-node';
       delayedFn(finalOpts.fadeInTime, removePreloadClass, image);
     };
   }
@@ -142,12 +141,19 @@ function ImagePreloader({ imageSelector, containerNode, options = {} }) {
     });
   }
 
+  function start() {
+    startPreloader(getImages(imageSelector));
+  }
+
   /**
     * Initialization
   **/
-  createPreloadIcon(function() {
-    document.body.removeChild(this);
-    startPreloader(getImages(imageSelector));
+  
+  return new Promise((resolve) => {
+    createPreloadIcon(function() {
+      document.body.removeChild(this);
+      resolve(start);
+    });
   });
 }
 
