@@ -48,11 +48,11 @@ const projectView = new ProjectView({
   project: stateManager.currentProject,
 })
 
+new ImagePreloader({
+  imageSelector: 'img',
+  containerNode: document,
+  options: {},
+});
 carousel.render();
 projectView.render();
 
-new ImagePreloader({
-  imageSelector: 'img',
-  containerNode: '.carousel-track',
-  options: {},
-});

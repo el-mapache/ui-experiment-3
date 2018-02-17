@@ -6,26 +6,60 @@
   .project-view-content {
     color: white;
     display: grid;
-    grid-gap: $med;
     grid-template-columns: 50% 50%;
+    grid-template-rows: 20% 50% 30%;
     height: 100%;
-    padding: 0px $med 0px $med;
     transform: none;
 
-    .project-info {
+    .hero-image {
       align-self: center;
       color: $white;
+      grid-column: 2;
+      grid-row: 1 / -1;
       line-height: $med-line-height;
+      margin: 0 auto;
+      width: 100%;
     }
   
     .project-metadata {
       align-self: center;
-      color: $white
+      color: $white;
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .project-title {
+      background-color: $white;    
+      grid-column: 1;
+      grid-row: 1 / -1;
+      padding: 30px 30px 30px 60px;
+      height: 100%;
+      color: black;
+
+      .name {
+        color: $ocean;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: $large-font-size;
+      }
+
+      .blurb {
+        color: $black;
+        margin-top: $med; 
+      }
+
+      .tech {
+        color: $red;
+      }
+
+      .description {
+        line-height: 1.5em;
+        margin-top: 20px;
+      }
     }
   }
 
   .scale-out {
-    @include scale-and-fade(scale-and-fade-out, .6s, linear, 0) {
+    @include scale-and-fade(scale-and-fade-out, .5s, linear, 0) {
       @include set-keyframes(scale-and-fade-out) {
         @include scale-and-fade-property(to, .7, 0);
       }
@@ -33,7 +67,7 @@
   }
 
   .scale-in {
-    @include scale-and-fade(scale-and-fade-in, .6s, linear, 0) {
+    @include scale-and-fade(scale-and-fade-in, .5s, cubic-bezier(.91, .20, .22, .96), 0) {
       @include set-keyframes(scale-and-fade-in) {
         @include scale-and-fade-property(from, .8, 0);
         @include scale-and-fade-property(to, 1, 1);

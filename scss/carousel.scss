@@ -51,7 +51,7 @@
     cursor: pointer;
     fill: white;
     width: 80px;
-    transition: all 0.7s;
+    transition: transform 0.4s, fill 0.25s;
     height: 30%;
 
     &:hover {

@@ -21,7 +21,7 @@ const projects = [
   },
   {
     "name": "Encoder",
-    "tech": "express, redis, angular",
+    "tech": "express, redis, angular, ffmpeg",
     "blurb": "ffmpeg-backed audio transcoder",
     "description": "The first web app I created, Encoder is an audio transcoder that allows users to upload an audio file and convert it to one of several different formats. The file is processed using ffmpeg and an email is sent to the user with a link to the converted file. It uses Redis and a queueing library to manage file conversion and email jobs. This application was recently rewritten in Express from pure Node, with Angular providing the front-end functionality.",
     "uri": "",
@@ -36,7 +36,7 @@ const projects = [
     "description": "Using Node's binary websocket library BinaryJS, this application allows for real-time file streaming from one connected client to each of the other connected clients. It chunks a file to the back-end server, and pipes the chunks to each client connection. Files are not stored on the server, they are assembled client-side and saved to the user's computer. The front-end is a small backbone application that utilizes the File API to recreate files from the original chunks of data.",
     "uri": "",
     "repo": "https://github.com/el-mapache/transmission",
-    "file": "transmission.jpg",
+    "file": "transmission-2.jpg",
     "available": false,
   },
   {
@@ -61,7 +61,7 @@ const projects = [
   },
   {
     "name": "Minesweeper",
-    "tech": "react, webpack",
+    "tech": "react",
     "blurb": "Minesweeper just like your Windows 3.1 used to make",
     "description": "I wrote this Javascript implementation of minesweeper to get more comfortable using React. A handful of components, a simple store to hold the state of the game, and an implementation of the floodfill algorithm are the only pieces needed to recreate the game. \n\n In case you were wondering, this game is still super annoying to play.",
     "uri": "https://el-mapache.github.io/minesweeper",

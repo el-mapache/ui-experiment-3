@@ -60,6 +60,7 @@ function ImagePreloader({ imageSelector, containerNode, options = {} }) {
   }
 
   function wrap(node) {
+    console.log('butwrap')
     var wrapper = document.createElement(finalOpts.wrapperNode);
     wrapper.className = preloaderClass;
 
@@ -121,7 +122,6 @@ function ImagePreloader({ imageSelector, containerNode, options = {} }) {
     function isImagePreloaded() {
       // All images have been loaded.
       if (pendingImages.isLoaded()) {
-        clearInterval(timer);
         return;
       }
 
@@ -133,11 +133,13 @@ function ImagePreloader({ imageSelector, containerNode, options = {} }) {
           showImage(image, localDelay);
         }
       });
+
+      window.requestAnimationFrame(isImagePreloaded);
     }
 
-    timer = setInterval(function() {
+    window.requestAnimationFrame(() => {
       isImagePreloaded();
-    }, 60);
+    });
   }
 
   /**

@@ -51,13 +51,14 @@ h2 small {
 }
 
 h5 {
+  font-size: .9em;
   font-weight: 200;
 }
 
 .app {
   display: grid;
-  grid-template-columns: 15% 85%;
-  grid-template-rows: 70% 30%;
+  grid-template-columns: 20% 80%;
+  grid-template-rows: 80% 20%;
   grid-row: 2;
   height: 100vh;
   overflow: hidden;
