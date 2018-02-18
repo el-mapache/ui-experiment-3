@@ -1,5 +1,7 @@
 .project-view {
   height: 100%;
+  min-height: 100%;
+  min-width: 100%;
   position: relative;
   width: 100%;
 
@@ -9,6 +11,7 @@
     grid-template-columns: 50% 50%;
     grid-template-rows: 20% 50% 30%;
     height: 100%;
+    min-width: 100%;
     transform: none;
 
     .hero-image {
@@ -17,16 +20,19 @@
       grid-column: 2;
       grid-row: 1 / -1;
       margin: 0 auto;
+      min-width: 100%;
       width: 100%;
     }
   
     .project-title {
-      background-color: $white;    
+      background-color: $white;
+      color: black;
       grid-column: 1;
       grid-row: 1 / -1;
-      padding: 30px 30px 30px 60px;
       height: 100%;
-      color: black;
+      min-width: 100%;
+      padding: 30px 30px 30px 60px;
+      width: 100%;
 
       .name {
         color: $ocean;
@@ -51,7 +57,7 @@
   }
 
   .scale-out {
-    @include scale-and-fade(scale-and-fade-out, .5s, linear, 0) {
+    @include scale-and-fade(scale-and-fade-out, .7s, linear, 0) {
       @include set-keyframes(scale-and-fade-out) {
         @include scale-and-fade-property(to, .7, 0);
       }
@@ -59,7 +65,7 @@
   }
 
   .scale-in {
-    @include scale-and-fade(scale-and-fade-in, .5s, cubic-bezier(.91, .20, .22, .96), 0) {
+    @include scale-and-fade(scale-and-fade-in, .5s, cubic-bezier(.91, .20, .22, .99), 0) {
       @include set-keyframes(scale-and-fade-in) {
         @include scale-and-fade-property(from, .8, 0);
         @include scale-and-fade-property(to, 1, 1);
@@ -70,8 +76,9 @@
 
 .backing-project-view {
   position: absolute;
-  top: 0;
   left: 0;
+  overflow: hidden;
+  top: 0;
 }
 
 @include media-query-large {
@@ -79,7 +86,7 @@
     .project-view-content {
       grid-template-columns: 100%;
       grid-template-rows: 50% 50%;
-
+      
       .hero-image {
         grid-column: 1;
         grid-row: 1;
@@ -87,8 +94,9 @@
 
       .project-title {
         grid-row: 2;
-        overflow-y: scroll;
+        overflow-y: auto;
         padding-left: 0;
+        
       }
     }
   }

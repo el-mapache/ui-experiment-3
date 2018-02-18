@@ -6,21 +6,29 @@ class SimpleView {
   delegateEvent(selector, fn) {
     return (event) => {
       const { target } = event;
-      // Could also maybe search for the child element? seems like
-      // too much overhead though
-      if (target.id === selector || target.classList.contains(selector)) {
-        fn.call(this);
+      let parent = target.parentElement;
+
+      while (parent !== this.el && parent !== null) {
+        parent = parent.parentElement;
       }
+
+      if (!parent) {
+        return;
+      }
+
+      fn.call(this, event);
     };
   }
 
   bindEvents(descriptors) {
     descriptors.forEach(eventObject => {
       const { event, target, handlers } = eventObject;
+      const events = Array.isArray(event) ? event : [ event ];
       
       handlers.forEach((fn) => {
         const delegatedFn = this.delegateEvent(target, fn);
-        this.el.addEventListener(event, delegatedFn);
+        
+        events.forEach(type => this.el.addEventListener(type, delegatedFn));
       });  
     });
   }

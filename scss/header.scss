@@ -12,9 +12,11 @@
 
 @include media-query-medium {
   .human-view {
+    font-size: .8em;
     grid-column: 1 / -1;
     height: auto;
     min-height: auto;
+    padding-bottom: $med;
     text-align: center;
     width: 100%;
   }
@@ -22,5 +24,15 @@
   .header-title {
     margin: 0 auto;
     width: 50%;
+  }
+
+  .byline, .code-link {
+    display: none;
+  }
+}
+
+@include media-query-small {
+  .human-view {
+    padding-bottom: $med;
   }
 }

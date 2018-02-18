@@ -73,6 +73,9 @@ class ProjectView extends SimpleView {
         setTimeout(() => {
           this.el.removeChild(oldChild);
           this.el.firstElementChild.classList.remove('backing-project-view', 'scale-in');
+          
+          this.el.scrollTop = 0;
+          
           oldChild = null;
           count+=1;
         }, 700);

@@ -76,21 +76,29 @@ class SimpleView {
   delegateEvent(selector, fn) {
     return event => {
       const { target } = event;
-      // Could also maybe search for the child element? seems like
-      // too much overhead though
-      if (target.id === selector || target.classList.contains(selector)) {
-        fn.call(this);
+      let parent = target.parentElement;
+
+      while (parent !== this.el && parent !== null) {
+        parent = parent.parentElement;
       }
+
+      if (!parent) {
+        return;
+      }
+
+      fn.call(this, event);
     };
   }
 
   bindEvents(descriptors) {
     descriptors.forEach(eventObject => {
       const { event, target, handlers } = eventObject;
+      const events = Array.isArray(event) ? event : [event];
 
       handlers.forEach(fn => {
         const delegatedFn = this.delegateEvent(target, fn);
-        this.el.addEventListener(event, delegatedFn);
+
+        events.forEach(type => this.el.addEventListener(type, delegatedFn));
       });
     });
   }
@@ -244,6 +252,12 @@ new __WEBPACK_IMPORTED_MODULE_1_image_preloader__["a" /* default */]({
   projectView.render();
   preloadFn();
 });
+
+///mobile/.test(navigator.userAgent) && !location.hash && setTimeout(function() {
+setTimeout(function () {
+  window.scrollTo(0, 1);
+}, 1000);
+//}, 100);​
 
 /***/ }),
 /* 4 */
@@ -560,6 +574,9 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
         setTimeout(() => {
           this.el.removeChild(oldChild);
           this.el.firstElementChild.classList.remove('backing-project-view', 'scale-in');
+
+          this.el.scrollTop = 0;
+
           oldChild = null;
           count += 1;
         }, 700);
@@ -597,10 +614,10 @@ const carouselTemplate = images => {
         </ul>
       </div>
       <svg role="button" class="arrow-icon carousel-control" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-        viewBox="0 0 476.213 476.213" style="enable-background:new 0 0 476.213 476.213;" xml:space="preserve">
+        viewBox="0 0 476.213 476.213" style="enable-background:new 0 0 476.213 476.213;" xml:space="preserve" preserveAspectRatio="xMidYMin">
         <polygon points="405.606,167.5 384.394,188.713 418.787,223.106 0,223.106 0,253.106 418.787,253.106 384.394,287.5 
           405.606,308.713 476.213,238.106 "/>
-      </svg>
+      </svg> 
     </div>
   `;
 };
@@ -617,8 +634,8 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default 
     this.animating = false;
 
     this.bindEvents([{
-      event: 'click',
-      target: 'carousel-control',
+      event: ['click', 'touchstart'],
+      target: 'controls',
       handlers: [this.handleAdvance]
     }]);
   }
@@ -649,25 +666,24 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default 
     return list;
   }
 
-  delegateEvent(selector, fn) {
-    return event => {
-      const { target } = event;
-
-      if (target.id === selector || target.classList.contains(selector)) {
-        fn.call(this);
-      }
-    };
-  }
-
+  // get next item in linked list of slideable elements
   nextItem() {
     return this.items.next();
   }
 
+  // get the current item in the linked list of slideable elements
   currentItem() {
     return this.items.lastAccessed();
   }
 
-  handleAdvance() {
+  handleAdvance(event) {
+    event.preventDefault();
+
+    // throttling is tricky to get right, and I'd need a queue to handle
+    // scheduling animations, and that means moving a lot of things that css
+    // handles now into JS code. it would be less brittle than this
+    // function is, but having an animating flag is a simple solution that
+    // works fine from a user's vantage point
     if (this.animating) {
       return;
     }
@@ -710,7 +726,7 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default 
 }
 
 /**
- * click functionality
+ * click functionality -- todo? does it matter that users cant click on a project?
  * user clicks on image:
  * 
  * 1.lookup image at that index in the linked list

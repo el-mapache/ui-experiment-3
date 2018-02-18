@@ -5,7 +5,8 @@
 
 html, body {
   height: 100%;
-  width: 100%; }
+  width: 100%;
+  -webkit-tap-highlight-color: transparent; }
 
 body {
   background: #333;
@@ -51,13 +52,21 @@ h5 {
   grid-row: 2;
   height: 100%;
   overflow: hidden; }
+  @media screen and (min-width: 1600px) {
+    .app {
+      grid-template-columns: 10% 90%; } }
   @media only screen and (max-width: 991px) {
     .app {
       grid-template-columns: 25% 75%; } }
   @media only screen and (max-width: 768px) {
     .app {
       grid-template-columns: 100%;
-      grid-template-rows: 20% 60% 20%; } }
+      grid-template-rows: 15% 65% 20%;
+      overflow-y: scroll; } }
+  @media only screen and (max-width: 480px) {
+    .app {
+      grid-template-rows: 20% 60% 20%;
+      overflow-y: scroll; } }
 
 .hide {
   opacity: 0 !important; }
@@ -116,17 +125,27 @@ h5 {
 
 @media only screen and (max-width: 768px) {
   .human-view {
+    font-size: .8em;
     grid-column: 1 / -1;
     height: auto;
     min-height: auto;
+    padding-bottom: 20px;
     text-align: center;
     width: 100%; }
   .header-title {
     margin: 0 auto;
-    width: 50%; } }
+    width: 50%; }
+  .byline, .code-link {
+    display: none; } }
+
+@media only screen and (max-width: 480px) {
+  .human-view {
+    padding-bottom: 20px; } }
 
 .project-view {
   height: 100%;
+  min-height: 100%;
+  min-width: 100%;
   position: relative;
   width: 100%; }
   .project-view .project-view-content {
@@ -135,6 +154,7 @@ h5 {
     grid-template-columns: 50% 50%;
     grid-template-rows: 20% 50% 30%;
     height: 100%;
+    min-width: 100%;
     transform: none; }
     .project-view .project-view-content .hero-image {
       align-self: center;
@@ -142,14 +162,17 @@ h5 {
       grid-column: 2;
       grid-row: 1 / -1;
       margin: 0 auto;
+      min-width: 100%;
       width: 100%; }
     .project-view .project-view-content .project-title {
       background-color: #fff;
+      color: black;
       grid-column: 1;
       grid-row: 1 / -1;
-      padding: 30px 30px 30px 60px;
       height: 100%;
-      color: black; }
+      min-width: 100%;
+      padding: 30px 30px 30px 60px;
+      width: 100%; }
       .project-view .project-view-content .project-title .name {
         color: #33384E;
         font-family: Arial, Helvetica, sans-serif;
@@ -164,17 +187,17 @@ h5 {
         margin-top: 20px; }
   .project-view .scale-out {
     -webkit-animation-delay: 0;
-    -webkit-animation-duration: 0.5s;
+    -webkit-animation-duration: 0.7s;
     -webkit-animation-name: scale-and-fade-out;
     -webkit-animation-timing-function: linear;
     -webkit-animation-fill-mode: forwards;
     -moz-animation-delay: 0;
-    -moz-animation-duration: 0.5s;
+    -moz-animation-duration: 0.7s;
     -moz-animation-name: scale-and-fade-out;
     -moz-animation-timing-function: linear;
     -moz-animation-fill-mode: forwards;
     animation-delay: 0;
-    animation-duration: 0.5s;
+    animation-duration: 0.7s;
     animation-name: scale-and-fade-out;
     animation-timing-function: linear;
     animation-fill-mode: forwards; }
@@ -197,17 +220,17 @@ h5 {
     -webkit-animation-delay: 0;
     -webkit-animation-duration: 0.5s;
     -webkit-animation-name: scale-and-fade-in;
-    -webkit-animation-timing-function: cubic-bezier(0.91, 0.2, 0.22, 0.96);
+    -webkit-animation-timing-function: cubic-bezier(0.91, 0.2, 0.22, 0.99);
     -webkit-animation-fill-mode: forwards;
     -moz-animation-delay: 0;
     -moz-animation-duration: 0.5s;
     -moz-animation-name: scale-and-fade-in;
-    -moz-animation-timing-function: cubic-bezier(0.91, 0.2, 0.22, 0.96);
+    -moz-animation-timing-function: cubic-bezier(0.91, 0.2, 0.22, 0.99);
     -moz-animation-fill-mode: forwards;
     animation-delay: 0;
     animation-duration: 0.5s;
     animation-name: scale-and-fade-in;
-    animation-timing-function: cubic-bezier(0.91, 0.2, 0.22, 0.96);
+    animation-timing-function: cubic-bezier(0.91, 0.2, 0.22, 0.99);
     animation-fill-mode: forwards; }
 
 @-webkit-keyframes scale-and-fade-in {
@@ -236,8 +259,9 @@ h5 {
 
 .backing-project-view {
   position: absolute;
-  top: 0;
-  left: 0; }
+  left: 0;
+  overflow: hidden;
+  top: 0; }
 
 @media only screen and (max-width: 991px) {
   .project-view .project-view-content {
@@ -248,7 +272,7 @@ h5 {
       grid-row: 1; }
     .project-view .project-view-content .project-title {
       grid-row: 2;
-      overflow-y: scroll;
+      overflow-y: auto;
       padding-left: 0; } }
 
 @media only screen and (max-width: 768px) {
@@ -273,8 +297,9 @@ h5 {
   background: #333;
   display: grid;
   grid-column: 1 / -1;
-  grid-gap: 20px;
+  grid-gap: 10px;
   grid-template-columns: 90% 10%;
+  -webkit-transform: translateZ(0);
   z-index: 100; }
   .carousel .carousel-container {
     overflow: hidden; }
@@ -302,19 +327,30 @@ h5 {
   .carousel .current-item {
     filter: none;
     opacity: 1; }
+  .carousel .controls {
+    height: 100%;
+    width: 100%; }
+    .carousel .controls:hover {
+      cursor: pointer; }
+      .carousel .controls:hover .arrow-icon {
+        fill: #CC2649;
+        transform: translateX(15px); }
+    .carousel .controls:active .arrow-icon, .carousel .controls:focus .arrow-icon {
+      transform: translateX(15px) scale(1.1); }
   .carousel .arrow-icon {
     align-self: center;
     cursor: pointer;
+    display: block;
     fill: white;
     height: 30%;
     justify-self: center;
     transition: transform 0.4s, fill 0.25s;
-    width: 80px; }
-    .carousel .arrow-icon:hover {
-      fill: #CC2649;
-      transform: translateX(15px); }
-    .carousel .arrow-icon:active, .carousel .arrow-icon:focus {
-      transform: translateX(15px) scale(1.1); }
+    width: 50px; }
+    .carousel .arrow-icon:before {
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+      height: 100%; }
   .carousel .scale-out {
     -webkit-animation-delay: 0;
     -webkit-animation-duration: 0.7s;
@@ -354,22 +390,17 @@ h5 {
       width: 100%; }
 
 @media only screen and (max-width: 991px) {
-  .carousel {
-    grid-gap: 0; }
-    .carousel .carousel-track {
-      left: -50%;
-      transform: translate(50%); }
-    .carousel .slideable {
-      flex: 1 0 50%; }
-    .carousel .arrow-icon {
-      transform: none !important;
-      transition: none; }
-    .carousel .arrow-icon {
-      justify-self: left; } }
+  .carousel .carousel-track {
+    left: -50%;
+    transform: translate(50%); }
+  .carousel .slideable {
+    flex: 1 0 50%; }
+  .carousel .arrow-icon {
+    transform: none !important;
+    transition: none; } }
 
 @media only screen and (max-width: 768px) {
   .carousel {
-    grid-gap: 0px;
     grid-template-columns: 80% 20%; }
     .carousel .carousel-track {
       left: -100%;
@@ -377,9 +408,11 @@ h5 {
     .carousel .slideable {
       flex: 1 0 100%; } }
 
-@media screen and (min-width: 481px) and (max-width: 568px) {
-  .carousel .carousel-track {
-    left: -50%;
-    transform: translateX(50%); }
-  .carousel .slideable {
-    flex: 1 0 50%; } }
+@media screen and (min-width: 481px) and (max-width: 767px) {
+  .carousel {
+    align-items: center; }
+    .carousel .carousel-track {
+      left: -50%;
+      transform: translateX(50%); }
+    .carousel .slideable {
+      flex: 1 0 50%; } }

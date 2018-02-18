@@ -21,10 +21,10 @@ const carouselTemplate = (images) => {
         </ul>
       </div>
       <svg role="button" class="arrow-icon carousel-control" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-        viewBox="0 0 476.213 476.213" style="enable-background:new 0 0 476.213 476.213;" xml:space="preserve">
+        viewBox="0 0 476.213 476.213" style="enable-background:new 0 0 476.213 476.213;" xml:space="preserve" preserveAspectRatio="xMidYMin">
         <polygon points="405.606,167.5 384.394,188.713 418.787,223.106 0,223.106 0,253.106 418.787,253.106 384.394,287.5 
           405.606,308.713 476.213,238.106 "/>
-      </svg>
+      </svg> 
     </div>
   `);
 };
@@ -41,8 +41,8 @@ class Carousel extends SimpleView {
     this.animating = false;
 
     this.bindEvents([{
-      event: 'click',
-      target: 'carousel-control',
+      event: ['click', 'touchstart'],
+      target: 'controls',
       handlers: [this.handleAdvance],
     }]);
   }
@@ -73,25 +73,24 @@ class Carousel extends SimpleView {
     return list;
   }
 
-  delegateEvent(selector, fn) {
-    return (event) => {
-      const { target } = event;
-
-      if (target.id === selector || target.classList.contains(selector)) {
-        fn.call(this);
-      }
-    };
-  }
-
+  // get next item in linked list of slideable elements
   nextItem() {
     return this.items.next();
   }
 
+  // get the current item in the linked list of slideable elements
   currentItem() {
     return this.items.lastAccessed();
   }
 
-  handleAdvance() {
+  handleAdvance(event) {
+    event.preventDefault();
+
+    // throttling is tricky to get right, and I'd need a queue to handle
+    // scheduling animations, and that means moving a lot of things that css
+    // handles now into JS code. it would be less brittle than this
+    // function is, but having an animating flag is a simple solution that
+    // works fine from a user's vantage point
     if (this.animating) {
       return;
     }
@@ -134,7 +133,7 @@ class Carousel extends SimpleView {
 }
 
 /**
- * click functionality
+ * click functionality -- todo? does it matter that users cant click on a project?
  * user clicks on image:
  * 
  * 1.lookup image at that index in the linked list

@@ -2,8 +2,9 @@
   background: #333;
   display: grid;
   grid-column: 1 / -1;
-  grid-gap: 20px;
+  grid-gap: $small;
   grid-template-columns: 90% 10%;
+  -webkit-transform: translateZ(0);
   z-index: 100;
 
   .carousel-container {
@@ -46,22 +47,41 @@
     opacity: 1;
   }
 
+  .controls {
+    height: 100%;
+    width: 100%;
+
+    &:hover {
+      cursor: pointer;
+      .arrow-icon {
+        fill: #CC2649;
+        transform: translateX(15px);
+      }
+    }
+
+
+    &:active, &:focus {
+      .arrow-icon {
+        transform: translateX(15px) scale(1.1);
+      }
+    }
+  }
+
   .arrow-icon {
     align-self: center;
     cursor: pointer;
+    display: block;
     fill: white;
     height: 30%;
     justify-self: center;
     transition: transform 0.4s, fill 0.25s;
-    width: 80px;
+    width: 50px;
 
-    &:hover {
-      fill: #CC2649;
-      transform: translateX(15px);
-    }
-
-    &:active, &:focus {
-      transform: translateX(15px) scale(1.1);
+    &:before {
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+      height: 100%;
     }
   }
 
@@ -84,8 +104,6 @@
 
 @include media-query-large {
   .carousel {
-    grid-gap: 0;
-
     .carousel-track {
       left: -50%;
       transform: translate(50%);
@@ -99,16 +117,11 @@
       transform: none !important;
       transition: none;
     }
-
-    .arrow-icon {
-      justify-self: left;
-    }
   }
 }
 
 @include media-query-medium {
   .carousel {
-    grid-gap: 0px;
     grid-template-columns: 80% 20%;
 
     .carousel-track {
@@ -122,8 +135,10 @@
   }
 }
 
-@media screen and (min-width: 481px) and (max-width: 568px) {
+@media screen and (min-width: 481px) and (max-width: 767px) {
   .carousel {
+    align-items: center;
+
     .carousel-track {
       left: -50%;
       transform: translateX(50%);
