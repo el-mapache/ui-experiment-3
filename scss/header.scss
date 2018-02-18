@@ -31,6 +31,12 @@
   }
 }
 
+@media screen and (min-width: 481px) and (max-width: 767px) {
+  .human-view {
+    display: none;
+  }
+}
+
 @include media-query-small {
   .human-view {
     padding-bottom: $med;
