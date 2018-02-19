@@ -1,12 +1,19 @@
 import SimpleView from 'simple-view';
 let count = 0;
-const projectTemplate = ({ src, description, name, blurb, tech }) => {
+const projectTemplate = ({ src, description, name, blurb, tech, uri, repo, available }) => {
   return (
     `
       <article class="project-view-content">
         <div class="project-title">
+          <button type="button" role="nav" class="project-cycle btn right">
+            Next Project
+          </button>
           <h1 class="name">${name}</h1>
           <h4 class="tech">${tech}</h4>
+          <div class="project-links">
+            <a class="link" href="${repo}" target="_blank" rel="nofollow">code</a>
+            ${ available ? `<a class="link" href="${uri}" target="_blank" rel="nofollow">demo</a>` : '' }
+          </div>
           <h5 class="blurb">${blurb}</h5>
           <p class="description">${description}</p>
           <button type="button" role="nav" class="project-cycle btn">
@@ -34,17 +41,19 @@ class ProjectView extends SimpleView {
         name: this.project.name,
         tech: this.project.tech,
         blurb: this.project.blurb,
+        uri: project.available && project.uri,
+        repo: project.repo,
       })
     );
 
     this.el.addEventListener('click', (event) => {
-      if (event.target === this.el.querySelector('.project-cycle')) {
+      if (event.target.classList.contains('project-cycle')) {
         onNextProject();
       }
     });
 
     this.el.addEventListener('touchstart', (event) => {
-      if (event.target === this.el.querySelector('.project-cycle')) {
+      if (event.target.classList.contains('project-cycle')) {
         onNextProject();
       }
     });
@@ -96,7 +105,7 @@ class ProjectView extends SimpleView {
           count+=1;
           this.animating = false;
         }, 700);
-      }, 0);  
+      }, 350);  
     }
   }
 }

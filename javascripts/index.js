@@ -13,19 +13,10 @@ const stateManager = {
     this.currentProject = projects[index];
     const {
       file: src,
-      description,
-      name,
-      tech,
-      blurb,
+      ...rest,
     } = this.currentProject;
     
-    projectView.update({
-      src,
-      description,
-      name,
-      tech,
-      blurb,
-    });
+    projectView.update({ src, ...rest });
   },
   getNextProject() {
     const { currentIndex } = this;
@@ -70,11 +61,3 @@ new ImagePreloader({
   projectView.render();
   preloadFn();
 });
-
-
-///mobile/.test(navigator.userAgent) && !location.hash && setTimeout(function() {
-  setTimeout(function() {
-    window.scrollTo(0, 1);
-  },1000);
-//}, 100);​
-

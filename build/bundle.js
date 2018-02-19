@@ -210,21 +210,13 @@ const stateManager = {
   onNextItem(index) {
     this.currentIndex = index;
     this.currentProject = __WEBPACK_IMPORTED_MODULE_0_project_data__["a" /* default */][index];
-    const {
-      file: src,
-      description,
-      name,
-      tech,
-      blurb
-    } = this.currentProject;
+    const _currentProject = this.currentProject,
+          {
+      file: src
+    } = _currentProject,
+          rest = _objectWithoutProperties(_currentProject, ['file']);
 
-    projectView.update({
-      src,
-      description,
-      name,
-      tech,
-      blurb
-    });
+    projectView.update(_extends({ src }, rest));
   },
   getNextProject() {
     const { currentIndex } = this;
@@ -270,12 +262,6 @@ new __WEBPACK_IMPORTED_MODULE_1_image_preloader__["a" /* default */]({
   projectView.render();
   preloadFn();
 });
-
-///mobile/.test(navigator.userAgent) && !location.hash && setTimeout(function() {
-setTimeout(function () {
-  window.scrollTo(0, 1);
-}, 1000);
-//}, 100);​
 
 /***/ }),
 /* 4 */
@@ -525,12 +511,19 @@ function ImagePreloader({ imageSelector, containerNode, options = {} }) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_simple_view__ = __webpack_require__(0);
 
 let count = 0;
-const projectTemplate = ({ src, description, name, blurb, tech }) => {
+const projectTemplate = ({ src, description, name, blurb, tech, uri, repo, available }) => {
   return `
       <article class="project-view-content">
         <div class="project-title">
+          <button type="button" role="nav" class="project-cycle btn right">
+            Next Project
+          </button>
           <h1 class="name">${name}</h1>
           <h4 class="tech">${tech}</h4>
+          <div class="project-links">
+            <a class="link" href="${repo}" target="_blank" rel="nofollow">code</a>
+            ${available ? `<a class="link" href="${uri}" target="_blank" rel="nofollow">demo</a>` : ''}
+          </div>
           <h5 class="blurb">${blurb}</h5>
           <p class="description">${description}</p>
           <button type="button" role="nav" class="project-cycle btn">
@@ -555,17 +548,19 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
       description: this.project.description,
       name: this.project.name,
       tech: this.project.tech,
-      blurb: this.project.blurb
+      blurb: this.project.blurb,
+      uri: project.available && project.uri,
+      repo: project.repo
     }));
 
     this.el.addEventListener('click', event => {
-      if (event.target === this.el.querySelector('.project-cycle')) {
+      if (event.target.classList.contains('project-cycle')) {
         onNextProject();
       }
     });
 
     this.el.addEventListener('touchstart', event => {
-      if (event.target === this.el.querySelector('.project-cycle')) {
+      if (event.target.classList.contains('project-cycle')) {
         onNextProject();
       }
     });
@@ -617,7 +612,7 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
           count += 1;
           this.animating = false;
         }, 700);
-      }, 0);
+      }, 350);
     }
   }
 }
