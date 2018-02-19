@@ -73,7 +73,7 @@ class SimpleView {
     this.el = el;
   }
 
-  delegateEvent(selector, fn) {
+  delegateEvent(selector, fn, context = this) {
     return event => {
       const { target } = event;
       let parent = target.parentElement;
@@ -86,17 +86,17 @@ class SimpleView {
         return;
       }
 
-      fn.call(this, event);
+      fn.call(context, event);
     };
   }
 
   bindEvents(descriptors) {
     descriptors.forEach(eventObject => {
-      const { event, target, handlers } = eventObject;
+      const { event, target, handlers, context } = eventObject;
       const events = Array.isArray(event) ? event : [event];
 
       handlers.forEach(fn => {
-        const delegatedFn = this.delegateEvent(target, fn);
+        const delegatedFn = this.delegateEvent(target, fn, context);
 
         events.forEach(type => this.el.addEventListener(type, delegatedFn));
       });
@@ -193,6 +193,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_carousel__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_image_view__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_carousel_item__ = __webpack_require__(10);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 
 
 
@@ -201,8 +205,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 const stateManager = {
+  currentIndex: 0,
   currentProject: __WEBPACK_IMPORTED_MODULE_0_project_data__["a" /* default */][0],
   onNextItem(index) {
+    this.currentIndex = index;
     this.currentProject = __WEBPACK_IMPORTED_MODULE_0_project_data__["a" /* default */][index];
     const {
       file: src,
@@ -219,6 +225,17 @@ const stateManager = {
       tech,
       blurb
     });
+  },
+  getNextProject() {
+    const { currentIndex } = this;
+
+    this.currentIndex = currentIndex === __WEBPACK_IMPORTED_MODULE_0_project_data__["a" /* default */].length - 1 ? 0 : currentIndex + 1;
+
+    const project = __WEBPACK_IMPORTED_MODULE_0_project_data__["a" /* default */][this.currentIndex];
+    const { file: src } = project,
+          rest = _objectWithoutProperties(project, ['file']);
+
+    projectView.update(_extends({ src }, rest));
   }
 };
 
@@ -240,7 +257,8 @@ const carousel = new __WEBPACK_IMPORTED_MODULE_3_carousel__["a" /* default */]({
 
 const projectView = new __WEBPACK_IMPORTED_MODULE_2_project_view__["a" /* default */]({
   el: document.querySelector('.project-view'),
-  project: stateManager.currentProject
+  project: stateManager.currentProject,
+  onNextProject: stateManager.getNextProject.bind(stateManager)
 });
 
 new __WEBPACK_IMPORTED_MODULE_1_image_preloader__["a" /* default */]({
@@ -508,13 +526,16 @@ function ImagePreloader({ imageSelector, containerNode, options = {} }) {
 
 let count = 0;
 const projectTemplate = ({ src, description, name, blurb, tech }) => {
-  return ` 
+  return `
       <article class="project-view-content">
         <div class="project-title">
           <h1 class="name">${name}</h1>
           <h4 class="tech">${tech}</h4>
           <h5 class="blurb">${blurb}</h5>
           <p class="description">${description}</p>
+          <button type="button" role="nav" class="project-cycle btn">
+            Next Project
+          </button>
         </div>
         <figure class="hero-image">
           <img src="images/${src}" />
@@ -524,9 +545,10 @@ const projectTemplate = ({ src, description, name, blurb, tech }) => {
 };
 
 class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* default */] {
-  constructor({ el, project }) {
+  constructor({ el, project, onNextProject }) {
     super({ el });
 
+    this.animating = false;
     this.project = project;
     this.fragment = this.generateDOM(projectTemplate({
       src: this.project.file,
@@ -535,6 +557,18 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
       tech: this.project.tech,
       blurb: this.project.blurb
     }));
+
+    this.el.addEventListener('click', event => {
+      if (event.target === this.el.querySelector('.project-cycle')) {
+        onNextProject();
+      }
+    });
+
+    this.el.addEventListener('touchstart', event => {
+      if (event.target === this.el.querySelector('.project-cycle')) {
+        onNextProject();
+      }
+    });
   }
 
   willUpdate({ src, description, blurb, tech, name }) {
@@ -555,6 +589,12 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
       this.el.innerHTML = '';
       this.el.appendChild(this.fragment);
     } else {
+      if (this.animating) {
+        return;
+      }
+
+      this.animating = true;
+
       setTimeout(() => {
         let oldChild = this.el.firstElementChild;
 
@@ -571,14 +611,15 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
           this.el.children[1].classList.add('lipstick');
         }
 
+        window.scrollTo(0, 0);
+
         setTimeout(() => {
           this.el.removeChild(oldChild);
           this.el.firstElementChild.classList.remove('backing-project-view', 'scale-in');
 
-          this.el.scrollTop = 0;
-
           oldChild = null;
           count += 1;
+          this.animating = false;
         }, 700);
       }, 200);
     }

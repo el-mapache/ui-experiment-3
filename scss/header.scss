@@ -12,7 +12,7 @@
 
 @include media-query-medium {
   .human-view {
-    font-size: .8em;
+    font-size: .7em;
     grid-column: 1 / -1;
     height: auto;
     min-height: auto;
@@ -31,9 +31,9 @@
   }
 }
 
-@media screen and (min-width: 481px) and (max-width: 767px) {
+@include media-query-landscape {
   .human-view {
-    display: none;
+    display: initial;   
   }
 }
 

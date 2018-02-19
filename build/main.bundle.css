@@ -6,7 +6,8 @@
 html, body {
   height: 100%;
   width: 100%;
-  -webkit-tap-highlight-color: transparent; }
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%; }
 
 body {
   background: #333;
@@ -45,6 +46,18 @@ h5 {
   font-size: .9em;
   font-weight: 200; }
 
+.btn {
+  background: transparent;
+  border: 2px solid #333;
+  cursor: pointer;
+  font-size: 1em;
+  margin-top: 5px;
+  padding: 10px;
+  transition: all .15s linear; }
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 2px 8px 1px #ddd; }
+
 .app {
   display: grid;
   grid-template-columns: 20% 80%;
@@ -62,10 +75,11 @@ h5 {
     .app {
       grid-template-columns: 100%;
       grid-template-rows: 15% 65% 20%;
-      overflow-y: scroll; } }
-  @media screen and (min-width: 481px) and (max-width: 767px) {
+      overflow-y: auto; } }
+  @media only screen and (min-width: 481px) and (max-width: 586px) {
     .app {
-      grid-template-rows: 35% 65%;
+      grid-template-columns: 100%;
+      grid-template-rows: 20% 80%;
       overflow-y: hidden !important; } }
   @media only screen and (max-width: 320px) {
     .app {
@@ -128,7 +142,7 @@ h5 {
 
 @media only screen and (max-width: 768px) {
   .human-view {
-    font-size: .8em;
+    font-size: .7em;
     grid-column: 1 / -1;
     height: auto;
     min-height: auto;
@@ -141,9 +155,9 @@ h5 {
   .byline, .code-link {
     display: none; } }
 
-@media screen and (min-width: 481px) and (max-width: 767px) {
+@media only screen and (min-width: 481px) and (max-width: 586px) {
   .human-view {
-    display: none; } }
+    display: initial; } }
 
 @media only screen and (max-width: 320px) {
   .human-view {
@@ -163,6 +177,8 @@ h5 {
     height: 100%;
     min-width: 100%;
     transform: none; }
+    .project-view .project-view-content .project-cycle {
+      display: none; }
     .project-view .project-view-content .hero-image {
       align-self: center;
       color: #fff;
@@ -285,10 +301,7 @@ h5 {
 @media only screen and (max-width: 768px) {
   .project-view {
     background: white;
-    font-size: 1em;
     grid-template-columns: 100%;
-    height: 100%;
-    width: 100%;
     z-index: 200; }
     .project-view .project-view-content {
       grid-template-columns: 100%;
@@ -301,9 +314,22 @@ h5 {
         grid-row: 1;
         padding: 10px; } }
 
-@media screen and (min-width: 481px) and (max-width: 767px) {
+@media only screen and (min-width: 481px) and (max-width: 586px) {
   .project-view {
-    font-size: 1em; } }
+    font-size: 1.1em;
+    height: 100%;
+    overflow-x: hidden; }
+    .project-view .project-view-content {
+      background: white !important;
+      grid-column: 1;
+      grid-template-rows: 100%; }
+      .project-view .project-view-content .project-title {
+        margin: 0 auto;
+        padding: 20px;
+        width: 50% !important; }
+      .project-view .project-view-content .project-cycle {
+        display: initial;
+        margin-top: 10px; } }
 
 .carousel {
   background: #333;
@@ -339,16 +365,6 @@ h5 {
   .carousel .current-item {
     filter: none;
     opacity: 1; }
-  .carousel .controls {
-    height: 100%;
-    width: 100%; }
-    .carousel .controls:hover {
-      cursor: pointer; }
-      .carousel .controls:hover .arrow-icon {
-        fill: #CC2649;
-        transform: translateX(15px); }
-    .carousel .controls:active .arrow-icon, .carousel .controls:focus .arrow-icon {
-      transform: translateX(15px) scale(1.1); }
   .carousel .arrow-icon {
     align-self: center;
     cursor: pointer;
@@ -363,6 +379,13 @@ h5 {
       display: inline-block;
       vertical-align: middle;
       height: 100%; }
+    .carousel .arrow-icon:hover {
+      cursor: pointer; }
+      .carousel .arrow-icon:hover .arrow-icon {
+        fill: #CC2649;
+        transform: translateX(15px); }
+    .carousel .arrow-icon:active .arrow-icon, .carousel .arrow-icon:focus .arrow-icon {
+      transform: translateX(15px) scale(1.1); }
   .carousel .scale-out {
     -webkit-animation-delay: 0;
     -webkit-animation-duration: 0.7s;
@@ -420,12 +443,19 @@ h5 {
     .carousel .slideable {
       flex: 1 0 100%; } }
 
-@media screen and (min-width: 481px) and (max-width: 767px) {
+@media only screen and (min-width: 481px) and (max-width: 586px) {
   .carousel {
-    align-items: center;
+    display: none;
+    grid-column: 1;
+    grid-template-columns: 100%;
     grid-row: 1; }
     .carousel .carousel-track {
-      left: -100%;
-      transform: translateX(100%); }
+      display: block !important;
+      left: 0 !important;
+      transform: none !important; }
+      .carousel .carousel-track li {
+        display: block; }
+    .carousel .arrow-icon {
+      display: none !important; }
     .carousel .slideable {
       flex: 1 0 100%; } }

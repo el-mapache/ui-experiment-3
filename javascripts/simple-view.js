@@ -3,7 +3,7 @@ class SimpleView {
     this.el = el;
   }
 
-  delegateEvent(selector, fn) {
+  delegateEvent(selector, fn, context = this) {
     return (event) => {
       const { target } = event;
       let parent = target.parentElement;
@@ -16,17 +16,17 @@ class SimpleView {
         return;
       }
 
-      fn.call(this, event);
+      fn.call(context, event);
     };
   }
 
   bindEvents(descriptors) {
     descriptors.forEach(eventObject => {
-      const { event, target, handlers } = eventObject;
+      const { event, target, handlers, context } = eventObject;
       const events = Array.isArray(event) ? event : [ event ];
       
       handlers.forEach((fn) => {
-        const delegatedFn = this.delegateEvent(target, fn);
+        const delegatedFn = this.delegateEvent(target, fn, context);
         
         events.forEach(type => this.el.addEventListener(type, delegatedFn));
       });  

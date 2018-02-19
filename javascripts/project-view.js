@@ -2,13 +2,16 @@ import SimpleView from 'simple-view';
 let count = 0;
 const projectTemplate = ({ src, description, name, blurb, tech }) => {
   return (
-    ` 
+    `
       <article class="project-view-content">
         <div class="project-title">
           <h1 class="name">${name}</h1>
           <h4 class="tech">${tech}</h4>
           <h5 class="blurb">${blurb}</h5>
           <p class="description">${description}</p>
+          <button type="button" role="nav" class="project-cycle btn">
+            Next Project
+          </button>
         </div>
         <figure class="hero-image">
           <img src="images/${src}" />
@@ -19,9 +22,10 @@ const projectTemplate = ({ src, description, name, blurb, tech }) => {
 };
 
 class ProjectView extends SimpleView {
-  constructor({ el, project }) {
+  constructor({ el, project, onNextProject }) {
     super({ el });
 
+    this.animating = false;
     this.project = project;
     this.fragment = this.generateDOM(
       projectTemplate({
@@ -32,6 +36,18 @@ class ProjectView extends SimpleView {
         blurb: this.project.blurb,
       })
     );
+
+    this.el.addEventListener('click', (event) => {
+      if (event.target === this.el.querySelector('.project-cycle')) {
+        onNextProject();
+      }
+    });
+
+    this.el.addEventListener('touchstart', (event) => {
+      if (event.target === this.el.querySelector('.project-cycle')) {
+        onNextProject();
+      }
+    });
   }
 
   willUpdate({ src, description, blurb, tech, name }) {
@@ -54,6 +70,12 @@ class ProjectView extends SimpleView {
       this.el.innerHTML = '';
       this.el.appendChild(this.fragment);
     } else {
+      if (this.animating) {
+        return;
+      }
+
+      this.animating = true;      
+    
       setTimeout(() => {
         let oldChild = this.el.firstElementChild;
 
@@ -69,15 +91,17 @@ class ProjectView extends SimpleView {
         } else {
           this.el.children[1].classList.add('lipstick');
         }
-  
+        
+        window.scrollTo(0, 0);
+        
         setTimeout(() => {
           this.el.removeChild(oldChild);
           this.el.firstElementChild.classList.remove('backing-project-view', 'scale-in');
           
-          this.el.scrollTop = 0;
-          
           oldChild = null;
           count+=1;
+          this.animating = false;
+
         }, 700);
       }, 200);  
 
