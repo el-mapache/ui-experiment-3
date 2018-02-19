@@ -380,11 +380,10 @@ h5 {
       vertical-align: middle;
       height: 100%; }
     .carousel .arrow-icon:hover {
-      cursor: pointer; }
-      .carousel .arrow-icon:hover .arrow-icon {
-        fill: #CC2649;
-        transform: translateX(15px); }
-    .carousel .arrow-icon:active .arrow-icon, .carousel .arrow-icon:focus .arrow-icon {
+      cursor: pointer;
+      fill: #CC2649;
+      transform: translateX(15px); }
+    .carousel .arrow-icon:active, .carousel .arrow-icon:focus {
       transform: translateX(15px) scale(1.1); }
   .carousel .scale-out {
     -webkit-animation-delay: 0;

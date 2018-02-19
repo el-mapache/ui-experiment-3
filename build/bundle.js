@@ -571,15 +571,11 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
     });
   }
 
-  willUpdate({ src, description, blurb, tech, name }) {
+  willUpdate(nextProject) {
+    const { src, description, blurb, tech, name } = nextProject;
+
     this.previousFragment = this.fragment;
-    this.fragment = this.generateDOM(projectTemplate({
-      src,
-      description,
-      blurb,
-      tech,
-      name
-    }));
+    this.fragment = this.generateDOM(projectTemplate(nextProject));
 
     this.render();
   }
@@ -621,12 +617,24 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
           count += 1;
           this.animating = false;
         }, 700);
-      }, 200);
+      }, 0);
     }
   }
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (ProjectView);
+
+/**
+ * TODO:
+ * There is a bug with orchestrating the animations of the carousel and the project views
+ * Since I want a delay between the carousel animation and the beginning of the project 
+ * transition, a race condition can be caused when attempting to move to the next carousel
+ * item before the end of the project view animations.
+ * 
+ * This occurs because the carousel view locks ins behavior for 700 milliseconds while animating,
+ * and the project view locks its behaviour for 900 milliseconds. Until I have an object to manage these
+ * transitions, I'm removing the initial delay in the project view's animation cycle
+ */
 
 /***/ }),
 /* 7 */
@@ -732,20 +740,12 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default 
     const { props } = this;
     const activeItem = this.currentItem();
     const currentItem = this.nextItem();
+    const nextItem = this.nextItem();
 
     this.animating = true;
 
-    this.track.classList.remove('fixed');
-    activeItem.classList.remove('pivot');
-    currentItem.classList.add('scale-out', 'pivot');
     currentItem.style.setProperty('order', 1);
-
-    const nextItem = this.nextItem();
-    nextItem.classList.add('current-item');
-    nextItem.classList.remove('inactive');
     nextItem.style.setProperty('order', 2);
-
-    props.onAdvance(nextItem.getAttribute('data-index'));
 
     for (let i = 2; i < this.items.length; i++) {
       this.nextItem().style.setProperty('order', i + 1);
@@ -754,6 +754,14 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default 
     // advance the current item in the list one more time
     // so we don't keep looping over the same elements ad nauseum        
     this.nextItem();
+
+    this.track.classList.remove('fixed');
+    activeItem.classList.remove('pivot');
+    currentItem.classList.add('scale-out', 'pivot');
+    nextItem.classList.add('current-item');
+    nextItem.classList.remove('inactive');
+
+    props.onAdvance(nextItem.getAttribute('data-index'));
 
     setTimeout(() => {
       this.track.classList.add('fixed');

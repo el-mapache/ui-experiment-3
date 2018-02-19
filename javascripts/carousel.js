@@ -98,21 +98,13 @@ class Carousel extends SimpleView {
     const { props } = this;
     const activeItem = this.currentItem();
     const currentItem = this.nextItem();
-    
+    const nextItem = this.nextItem();
+
     this.animating = true;
 
-    this.track.classList.remove('fixed');
-    activeItem.classList.remove('pivot');
-    currentItem.classList.add('scale-out', 'pivot');
     currentItem.style.setProperty('order', 1);
-
-    const nextItem = this.nextItem();
-    nextItem.classList.add('current-item');
-    nextItem.classList.remove('inactive');
     nextItem.style.setProperty('order', 2);
-
-    props.onAdvance(nextItem.getAttribute('data-index'));
-
+    
     for (let i = 2; i < this.items.length; i++) {
       this.nextItem().style.setProperty('order', i + 1);
     }
@@ -120,6 +112,14 @@ class Carousel extends SimpleView {
     // advance the current item in the list one more time
     // so we don't keep looping over the same elements ad nauseum        
     this.nextItem();
+
+    this.track.classList.remove('fixed');
+    activeItem.classList.remove('pivot');
+    currentItem.classList.add('scale-out', 'pivot');
+    nextItem.classList.add('current-item');
+    nextItem.classList.remove('inactive');
+
+    props.onAdvance(nextItem.getAttribute('data-index'));
 
     setTimeout(() => {
       this.track.classList.add('fixed');

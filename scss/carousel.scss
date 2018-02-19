@@ -66,17 +66,13 @@
 
     &:hover {
       cursor: pointer;
-      .arrow-icon {
-        fill: #CC2649;
-        transform: translateX(15px);
-      }
+      fill: #CC2649;
+      transform: translateX(15px);
     }
 
 
     &:active, &:focus {
-      .arrow-icon {
-        transform: translateX(15px) scale(1.1);
-      }
+      transform: translateX(15px) scale(1.1);
     }
   }
 

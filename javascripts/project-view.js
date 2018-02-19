@@ -50,17 +50,11 @@ class ProjectView extends SimpleView {
     });
   }
 
-  willUpdate({ src, description, blurb, tech, name }) {
+  willUpdate(nextProject) {
+    const { src, description, blurb, tech, name } = nextProject;
+
     this.previousFragment = this.fragment;
-    this.fragment = this.generateDOM(
-      projectTemplate({
-        src,
-        description,
-        blurb,
-        tech,
-        name,
-      })
-    );
+    this.fragment = this.generateDOM(projectTemplate(nextProject));
 
     this.render();
   }
@@ -74,39 +68,49 @@ class ProjectView extends SimpleView {
         return;
       }
 
-      this.animating = true;      
-    
+      this.animating = true;
+
       setTimeout(() => {
         let oldChild = this.el.firstElementChild;
 
-        this.fragment.firstElementChild.classList.add('scale-in', 'backing-project-view')
+        this.fragment.firstElementChild.classList.add('scale-in', 'backing-project-view');
         this.el.appendChild(this.fragment);
   
         oldChild.classList.add('backing-project-view', 'scale-out');
   
         if (count % 2) {
-          this.el.children[1].classList.add('blue');          
+          this.el.children[1].classList.add('blue');
         } else if (count % 3) {
           this.el.children[1].classList.add('purple');
         } else {
           this.el.children[1].classList.add('lipstick');
         }
-        
+
         window.scrollTo(0, 0);
-        
+
         setTimeout(() => {
           this.el.removeChild(oldChild);
           this.el.firstElementChild.classList.remove('backing-project-view', 'scale-in');
-          
+
           oldChild = null;
           count+=1;
           this.animating = false;
-
         }, 700);
-      }, 200);  
-
+      }, 0);  
     }
   }
 }
 
 export default ProjectView;
+
+/**
+ * TODO:
+ * There is a bug with orchestrating the animations of the carousel and the project views
+ * Since I want a delay between the carousel animation and the beginning of the project 
+ * transition, a race condition can be caused when attempting to move to the next carousel
+ * item before the end of the project view animations.
+ * 
+ * This occurs because the carousel view locks ins behavior for 700 milliseconds while animating,
+ * and the project view locks its behaviour for 900 milliseconds. Until I have an object to manage these
+ * transitions, I'm removing the initial delay in the project view's animation cycle
+ */
