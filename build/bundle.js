@@ -178,7 +178,7 @@ const createDOM = templateString => {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(3);
-module.exports = __webpack_require__(11);
+module.exports = __webpack_require__(14);
 
 
 /***/ }),
@@ -190,13 +190,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_project_data__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_image_preloader__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_project_view__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_carousel__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_image_view__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_carousel_item__ = __webpack_require__(10);
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_carousel__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_image_view__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_carousel_item__ = __webpack_require__(13);
 
 
 
@@ -210,13 +206,8 @@ const stateManager = {
   onNextItem(index) {
     this.currentIndex = index;
     this.currentProject = __WEBPACK_IMPORTED_MODULE_0_project_data__["a" /* default */][index];
-    const _currentProject = this.currentProject,
-          {
-      file: src
-    } = _currentProject,
-          rest = _objectWithoutProperties(_currentProject, ['file']);
 
-    projectView.update(_extends({ src }, rest));
+    projectView.update(this.currentProject);
   },
   getNextProject() {
     const { currentIndex } = this;
@@ -224,29 +215,27 @@ const stateManager = {
     this.currentIndex = currentIndex === __WEBPACK_IMPORTED_MODULE_0_project_data__["a" /* default */].length - 1 ? 0 : currentIndex + 1;
 
     const project = __WEBPACK_IMPORTED_MODULE_0_project_data__["a" /* default */][this.currentIndex];
-    const { file: src } = project,
-          rest = _objectWithoutProperties(project, ['file']);
 
-    projectView.update(_extends({ src }, rest));
+    projectView.update(project);
   }
 };
 
 const carouselEl = document.querySelector('.carousel');
 const carousel = new __WEBPACK_IMPORTED_MODULE_3_carousel__["a" /* default */]({
   el: carouselEl,
-  sources: __WEBPACK_IMPORTED_MODULE_0_project_data__["a" /* default */].map(project => project.file),
+  sources: __WEBPACK_IMPORTED_MODULE_0_project_data__["a" /* default */].map(project => project.src),
   props: {
     onAdvance: stateManager.onNextItem,
     children: __WEBPACK_IMPORTED_MODULE_0_project_data__["a" /* default */].map((project, index) => {
       const active = index === __WEBPACK_IMPORTED_MODULE_0_project_data__["a" /* default */].length - 1 ? 'active' : '';
       return Object(__WEBPACK_IMPORTED_MODULE_5_carousel_item__["a" /* default */])({
         classes: active,
-        children: Object(__WEBPACK_IMPORTED_MODULE_4_image_view__["a" /* default */])({ src: project.file })
+        children: Object(__WEBPACK_IMPORTED_MODULE_4_image_view__["a" /* default */])({ src: project.src })
       });
     })
   }
 });
-
+console.log(stateManager.currentProject);
 const projectView = new __WEBPACK_IMPORTED_MODULE_2_project_view__["a" /* default */]({
   el: document.querySelector('.project-view'),
   project: stateManager.currentProject,
@@ -269,68 +258,85 @@ new __WEBPACK_IMPORTED_MODULE_1_image_preloader__["a" /* default */]({
 
 "use strict";
 const projects = [{
-  "name": "RATings",
+  "name": "ratings",
   "tech": "ruby on rails, angular, postgresql",
   "blurb": "San Francisco restaurant cleanliness scores",
-  "description": "RATings (pronounced RAT-ings) uses data from the city of San Francisco's health department to display an interactive map of restaurants in the city and their food safety inspection scores. Businesses are given a score of zero to four rats depending on the severity of their violations.  Historical scores and violations are provided as well as the status of the violations. The backend uses Rails to expose a simple API that feeds an Angular js front-end. This project was undertaken as an exercise in learning Angular js and to explore public data in a novel way.",
+  "description": "ratings (pronounced RAT-ings) uses data from the city of San Francisco's health department to display an interactive map of restaurants in the city and their food safety inspection scores.<br><br>Users can move around the map and automatically get a list of restaurants near the area in which they are dragging, or they can search for their favorite restaurants.<br><br>Businesses are given a score of zero to four rats depending on the severity of their violations.  Historical scores and violations are provided as well as whether or not those violations remain unresolved.<br><br>The backend is straightforward, using Rails and Postgres to expose a simple REST API, consumed by a single page angular js front end.<br><br>In addition to trying to explore public data in a novel way, I used this project as an exercise to familiarize myself with angular.",
   "uri": "http://ratings.availableforfriendship.com",
   "repo": "https://github.com/el-mapache/caveat",
-  "file": "rats.jpg",
-  "available": true
+  "src": "rats.jpg",
+  "available": true,
+  color: 'lipstick'
 }, {
   "name": "Libre Ipsum",
   "tech": "sinatra, redis, jquery",
   "blurb": "Placeholder text generated from Project Gutenberg",
-  "description": "Libre Ipsum is a placeholder text generator that pulls material from Project Gutenberg, an online repository of books in the public domain. It fetches and parses a daily RSS feed that contains the latest books added to Project Gutenberg. The user chooses a book and a number of paragraphs; text from the book is displayed randomly. The backend is comprised of several pieces: a small Sinatra application to handle requests and process the books, a Redis database for simple IP based request throttling, and a text file which serves as a manifest of all available books. The front-end is written in jQuery.",
+  "description": "Libre Ipsum uses Project Gutenberg to generator placeholder text suitable for mockups or high-fidelity wireframes. The user simply chooses a book and a number of paragraphs; text from the book is chosen at random.<br><br>The application is composed of the following pieces:<br><br>1) A set of command line utilities handles parsing the Project Gutenberg RSS feed of new books, crawling the website to download them, and performing updating the registry of books<br><br>2). a simple Sinatra application that exposes an API providing paragraphs from the books and has an internal library to generate usable placeholder text (ignoring things like indicies, table of contents, images, etc). This was the most challenging part of writing the app, as it involved a lot of trial and error (and regular expressions!) to figure out the different permutations of invalid content.<br><br>3). a Redis database for simple IP based request throttling. The book parsing can be intensive depending on the book's contents, so it seemed prudent to limit the number of requests. <br><br>4). The front-end, which are some simple event handlers in jQuery/vanilla JS. The copy-to-clipboard functionality used a Flash library, but I recently re-implemented it using the relatively recent browser-based clipboard API.<br><br>",
   "uri": "http://libre-ipsum.availableforfriendship.com",
   "repo": "https://github.com/el-mapache/libre-ipsum",
-  "file": "ipsum-2.jpg",
-  "available": true
+  "src": "ipsum-2.jpg",
+  "available": true,
+  color: 'purple'
 }, {
   "name": "Encoder",
   "tech": "express, redis, angular, ffmpeg",
   "blurb": "ffmpeg-backed audio transcoder",
-  "description": "The first web app I created, Encoder is an audio transcoder that allows users to upload an audio file and convert it to one of several different formats. The file is processed using ffmpeg and an email is sent to the user with a link to the converted file. It uses Redis and a queueing library to manage file conversion and email jobs. This application was recently rewritten in Express from pure Node, with Angular providing the front-end functionality.",
+  "description": "Encoder is a single-page application that allows the user to convert audio files of one format into another one, e.g. from WAV to mp3. Audio files submitted by the user are stored on server until processed by ffmpeg; at that point then the original files are removed, and an email is sent to the user with a download URL.<br><br>This was my first 'web app', and although the functionality is fairly simple, it taught me quite a bit about the considerations that go into making a single page app used by multiple concurrent client. For example, using a worker queue to handle processing the audio files, sending out emails, and removing the old files stored on the server. Or, using Redis as a volatile store for the download links (which expired after a 24 hour period). Even the idea of having a single source of truth to derive the front-end's state was something I had to learn while untangling the jQuery that drove it. <br><br>I later rewrote the server to use express (instead of a custom Node implementation) and angular to replace the jQuery.",
   "uri": "",
   "repo": "https://github.com/el-mapache/encode",
-  "file": "encoder.jpg",
-  "available": false
+  "src": "encoder.jpg",
+  "available": false,
+  color: 'blue'
 }, {
   "name": "Transmission",
-  "tech": "express, backbone",
+  "tech": "express, redis, backbone",
   "blurb": "Real-time file streaming between multiple peers",
-  "description": "Using Node's binary websocket library BinaryJS, this application allows for real-time file streaming from one connected client to each of the other connected clients. It chunks a file to the back-end server, and pipes the chunks to each client connection. Files are not stored on the server, they are assembled client-side and saved to the user's computer. The front-end is a small backbone application that utilizes the File API to recreate files from the original chunks of data.",
+  "description": "Transmission takes inspiration from a chat room, with files being the medium of communication between connected clients. One client creates a room and shares that URL with other parties. In the room, every user can then drag as many files as they wish into their browsers and stream them to each of the other connected users. Files will wait to stream until there is at least one other user, and all files are transmitted using a LIFO queue. <br><br>The app uses Redis to keep track of the rooms, and utilizes the BinaryJS to handle transmitting binary data to and from the server over websockets. The front-end is written in backbone, using web sockets on the client side and the File API to extract metadata from, and assemble binary data into files, which are automatically downloaded to the user's computer.",
   "uri": "",
   "repo": "https://github.com/el-mapache/transmission",
-  "file": "transmission-2.jpg",
-  "available": false
+  "src": "transmission-2.jpg",
+  "available": false,
+  color: 'blue'
 }, {
   "name": "SC-Now Recorder",
-  "tech": "angular",
+  "tech": "vainilla javascript",
   "blurb": "Record module for SourceNow browser-based audio app",
-  "description": "Recorder module written for Source-Elements' web only audio collaboration tool. Based on Matt Diamond's excellent RecorderJS library, this module makes a number of modifications. Rather than recording storing all audio in a single buffer, it writes many small files (using Chrome's FileSystem API) and then assembles them into a single WAV file once the recording is complete. This allows audio files of any duration to be recorded and saved without consuming all of the user's system's resources. Originally written as a stand-alone demo, I adapted it into an Angular application for use with Source-Elements' existing front-end infrastructure.",
+  "description": "This project was written to drive SCNow, Source-Elements' web-based professional audio collaboration tool. Although I used Matt Diamond's excellent RecorderJS library as a starting point, new pieces of functionality had to be added to meet the project's requirements. Users needed to be able to record up to 90 minutes of uncompressed 2 channel PCM audio, and the app had to do so without causing the computer's fan to kick in (adding unwanted noise to the recording).<br><br>Solving this required two major components. Rather than store all the current audio data in a single buffer in memory, I used a small circular buffer which periodically (every few seconds) read data from the buffer and passed it to a web worker, where it was stored in a temporary file via the FileSystem API. When the recording was finished, a header was computed using the total length of the audio data contained in all the files, and those files were concatenated together into a single Blob object.<br><br>Doing this allowed longer record times because it was no longer necessary to store the complete audio data in runtime memory during recording, and because the complete audio data was kept in memory only once, when the file was being assembled.",
   "uri": "https://now.source-elements.com/#!/",
   "repo": "https://github.com/el-mapache/cassette",
-  "file": "scnow.jpg",
-  "available": true
+  "src": "scnow.jpg",
+  "available": true,
+  color: 'purple'
 }, {
   "name": "Hero Quest",
-  "tech": "craftyjs",
+  "tech": "crafty",
   "blurb": "JS versions of Milton Bradley's 90s board game",
-  "description": "A perpetual work in progress, this is a JavaScript implementation of one of my favorite boardgames as a kid. I wanted the experience of making a game, and the challenge of designing a large system composed of many smaller components. Character actions are added dynamically in the form of interfaces which wrap several components together, and a simple MVC structure glues together the user interface and the data models. This game includes implementations of A*, ray casting, and floodfill algorithms, generally adapted from Java or C to JavaScript.",
+  "description": "JavaScript implementation of HeroQuest, a cool Warhammer-lite miniatures-based board game from the 90s. The biggest challenge with this project was one of scope; it taught me that you absolutely must plan out a large project before starting to build it!<br><br>The game's systems are managed by a completely modular architecture. Each of them, down to whether or not a game object can take damage, move, or behave as a ‘solid’ are composed of small, single-purpose modules. This allowed for a lot flexibility in behavior; for example, furniture could easily be made to take damage, or magical items could have their properties decorated, without needing a convoluted system of inheritance.<br><br>Complex behaviors are further abstracted into reusable interfaces. The game also includes a small script evaluator to handle item and magic usage, and custom events that may occur in a given level.<br><br>Although I didn't end up finishing the game, I learned a lot along the way, implementing algorithms like recasting, A* pathfinding, and flood fill, learning about data structures like linked lists, and building a project using an architectural paradigm different from ones I had used before.",
   "uri": "",
   "repo": "https://github.com/el-mapache/hero_quest",
-  "file": "hero-quest-2.jpg",
-  "available": false
+  "src": "hero-quest-2.jpg",
+  "available": false,
+  color: 'lipstick'
 }, {
   "name": "Minesweeper",
   "tech": "react",
   "blurb": "Minesweeper just like your Windows 3.1 used to make",
-  "description": "I wrote this Javascript implementation of minesweeper to get more comfortable using React. A handful of components, a simple store to hold the state of the game, and an implementation of the floodfill algorithm are the only pieces needed to recreate the game. \n\n In case you were wondering, this game is still super annoying to play.",
+  "description": "JavaScript implementation of the classic game, written to teach myself react. The game only consists of a handful of components, a floodfill class, and some state managed via the Flux pattern.<br><br>There isn't much to say about this project because react made it extremely simple to write! This game is still very hard to beat.",
   "uri": "https://el-mapache.github.io/minesweeper",
   "repo": "https://github.com/el-mapache/minesweeper",
-  "file": "minesweeper-2.jpg",
-  "available": true
+  "src": "minesweeper-2.jpg",
+  "available": true,
+  color: 'purple'
+}, {
+  name: 'Portfolio',
+  tech: 'es6, css3, scss',
+  blurb: 'My website!',
+  description: 'The website you are currently viewing! Included because it represents a significant reworking of my previous portfolio site. Written to exercise my front-end chops a bit, there are a lot of changes under the hood.<br><br> Bootstrap has been completely removed and replaced with a layout driven by FlexBox and CSS Grid, both of which make designing a page extremely simple. The inline script tag templates and parser are also removed, replaced with ES6 template strings. The page also makes greater use of CSS animations. The javascript driving the site is organized into components, with a top level controller to hold state and provide callbacks and data to the components.',
+  uri: 'https://availableforfriendship.com',
+  repo: 'https://github.com/el-mapache/website-4.0',
+  src: 'portfolio.jpg',
+  available: 'true',
+  color: 'purple'
 }];
 
 /* harmony default export */ __webpack_exports__["a"] = (projects);
@@ -509,33 +515,9 @@ function ImagePreloader({ imageSelector, containerNode, options = {} }) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_simple_view__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_templates_project_template__ = __webpack_require__(7);
 
-let count = 0;
-const projectTemplate = ({ src, description, name, blurb, tech, uri, repo, available }) => {
-  return `
-      <article class="project-view-content">
-        <div class="project-title">
-          <button type="button" role="nav" class="project-cycle btn right">
-            Next Project
-          </button>
-          <h1 class="name">${name}</h1>
-          <h4 class="tech">${tech}</h4>
-          <div class="project-links">
-            <a class="link" href="${repo}" target="_blank" rel="nofollow">code</a>
-            ${available ? `<a class="link" href="${uri}" target="_blank" rel="nofollow">demo</a>` : ''}
-          </div>
-          <h5 class="blurb">${blurb}</h5>
-          <p class="description">${description}</p>
-          <button type="button" role="nav" class="project-cycle btn">
-            Next Project
-          </button>
-        </div>
-        <figure class="hero-image">
-          <img src="images/${src}" />
-        </figure>
-      </article>
-    `;
-};
+
 
 class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* default */] {
   constructor({ el, project, onNextProject }) {
@@ -543,15 +525,7 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
 
     this.animating = false;
     this.project = project;
-    this.fragment = this.generateDOM(projectTemplate({
-      src: this.project.file,
-      description: this.project.description,
-      name: this.project.name,
-      tech: this.project.tech,
-      blurb: this.project.blurb,
-      uri: project.available && project.uri,
-      repo: project.repo
-    }));
+    this.fragment = this.generateDOM(Object(__WEBPACK_IMPORTED_MODULE_1_templates_project_template__["a" /* default */])(project));
 
     this.el.addEventListener('click', event => {
       if (event.target.classList.contains('project-cycle')) {
@@ -570,7 +544,7 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
     const { src, description, blurb, tech, name } = nextProject;
 
     this.previousFragment = this.fragment;
-    this.fragment = this.generateDOM(projectTemplate(nextProject));
+    this.fragment = this.generateDOM(Object(__WEBPACK_IMPORTED_MODULE_1_templates_project_template__["a" /* default */])(nextProject));
 
     this.render();
   }
@@ -594,14 +568,6 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
 
         oldChild.classList.add('backing-project-view', 'scale-out');
 
-        if (count % 2) {
-          this.el.children[1].classList.add('blue');
-        } else if (count % 3) {
-          this.el.children[1].classList.add('purple');
-        } else {
-          this.el.children[1].classList.add('lipstick');
-        }
-
         window.scrollTo(0, 0);
 
         setTimeout(() => {
@@ -609,10 +575,9 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
           this.el.firstElementChild.classList.remove('backing-project-view', 'scale-in');
 
           oldChild = null;
-          count += 1;
           this.animating = false;
         }, 700);
-      }, 350);
+      }, 0);
     }
   }
 }
@@ -636,35 +601,47 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_linked_list__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_simple_view__ = __webpack_require__(0);
-
-
-
-const imageTemplate = ({ src, classes, index }) => {
-  const finalClasses = `slideable ${classes}`;
-
+const projectTemplate = ({ src, description, name, blurb, tech, uri, repo, available, color }) => {
   return `
-      <li data-index=${index} class="${finalClasses}">
-        <img src="images/${src}" />
-      </li>
+      <article class="project-view-content ${color}">
+        <div class="project-title">
+          <button type="button" role="nav" class="project-cycle btn right">
+            Next Project
+          </button>
+          <h1 class="name">${name}</h1>
+          <h4 class="tech">${tech}</h4>
+          <div class="project-links">
+            <a class="link" href="${repo}" target="_blank" rel="nofollow">code</a>
+            ${available ? `<a class="link" href="${uri}" target="_blank" rel="nofollow">demo</a>` : ''}
+          </div>
+          <h5 class="blurb">${blurb}</h5>
+          <p class="description">${description}</p>
+          <button type="button" role="nav" class="project-cycle btn">
+            Next Project
+          </button>
+        </div>
+        <figure class="hero-image">
+          <img src="images/${src}" />
+        </figure>
+      </article>
     `;
 };
 
-const carouselTemplate = images => {
-  return `<div class="carousel-container">
-        <ul class="carousel-track fixed">
-          ${images.join('')}
-        </ul>
-      </div>
-      <svg role="button" class="arrow-icon carousel-control" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-        viewBox="0 0 476.213 476.213" style="enable-background:new 0 0 476.213 476.213;" xml:space="preserve" preserveAspectRatio="xMidYMin">
-        <polygon points="405.606,167.5 384.394,188.713 418.787,223.106 0,223.106 0,253.106 418.787,253.106 384.394,287.5 
-          405.606,308.713 476.213,238.106 "/>
-      </svg> 
-    </div>
-  `;
-};
+/* harmony default export */ __webpack_exports__["a"] = (projectTemplate);
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_linked_list__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_simple_view__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_templates_carousel_item__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_templates_carousel_template__ = __webpack_require__(11);
+
+
+
+
 
 class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default */] {
   constructor({ el, sources, props = {} }) {
@@ -694,10 +671,10 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default 
         classes = 'pivot';
       }
 
-      return imageTemplate({ src, classes, index });
+      return Object(__WEBPACK_IMPORTED_MODULE_2_templates_carousel_item__["a" /* default */])({ src, classes, index });
     });
 
-    return this.generateDOM(carouselTemplate(imageList));
+    return this.generateDOM(Object(__WEBPACK_IMPORTED_MODULE_3_templates_carousel_template__["a" /* default */])(imageList));
   }
 
   generateItemList(nodeList) {
@@ -789,7 +766,7 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default 
 /* harmony default export */ __webpack_exports__["a"] = (Carousel);
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -869,7 +846,46 @@ class List {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const carouselItem = ({ src, classes, index }) => {
+  const finalClasses = `slideable ${classes}`;
+
+  return `
+      <li data-index=${index} class="${finalClasses}">
+        <img src="images/${src}" />
+      </li>
+    `;
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (carouselItem);
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const carouselTemplate = images => {
+  return `<div class="carousel-container">
+        <ul class="carousel-track fixed">
+          ${images.join('')}
+        </ul>
+      </div>
+      <svg role="button" class="arrow-icon carousel-control" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+        viewBox="0 0 476.213 476.213" style="enable-background:new 0 0 476.213 476.213;" xml:space="preserve" preserveAspectRatio="xMidYMin">
+        <polygon points="405.606,167.5 384.394,188.713 418.787,223.106 0,223.106 0,253.106 418.787,253.106 384.394,287.5 
+          405.606,308.713 476.213,238.106 "/>
+      </svg> 
+    </div>
+  `;
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (carouselTemplate);
+
+/***/ }),
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -885,7 +901,7 @@ class List {
 });
 
 /***/ }),
-/* 10 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -905,7 +921,7 @@ class List {
 });;
 
 /***/ }),
-/* 11 */
+/* 14 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

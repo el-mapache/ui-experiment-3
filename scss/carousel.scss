@@ -4,7 +4,6 @@
   grid-column: 1 / -1;
   grid-gap: $small;
   grid-template-columns: 90% 10%;
-  -webkit-transform: translateZ(0);
   z-index: 100;
 
   .carousel-container {
@@ -34,7 +33,6 @@
     flex: 1 0 33.333%;
     opacity: .3;
     order: 2;
-    position: relative;
     transition: opacity .5s ease-in-out, filter .7s ease-in-out;
   }
 
@@ -67,12 +65,11 @@
     &:hover {
       cursor: pointer;
       fill: #CC2649;
-      transform: translateX(15px);
     }
 
 
     &:active, &:focus {
-      transform: translateX(15px) scale(1.1);
+      transform: scale(1.1);
     }
   }
 
@@ -105,6 +102,7 @@
     }
 
     .arrow-icon {
+     justify-self: initial;
       transform: none !important;
       transition: none;
     }
@@ -126,29 +124,8 @@
   }
 }
 
-// max width 568?
 @include media-query-landscape {
   .carousel {
     display: none;
-   // align-items: center;
-    grid-column: 1;
-    grid-template-columns: 100%;
-    grid-row: 1;
-
-    .carousel-track {
-      display: block !important;
-      left: 0 !important;
-      transform: none !important;
-
-      li {
-        display:block;
-      }
-      //left: -100%;
-      //transform: translateX(100%);
-    }
-    .arrow-icon { display: none !important; }
-    .slideable {
-      flex: 1 0 100%;
-    }
   }
 }

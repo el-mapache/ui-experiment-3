@@ -1,32 +1,5 @@
 import SimpleView from 'simple-view';
-let count = 0;
-const projectTemplate = ({ src, description, name, blurb, tech, uri, repo, available }) => {
-  return (
-    `
-      <article class="project-view-content">
-        <div class="project-title">
-          <button type="button" role="nav" class="project-cycle btn right">
-            Next Project
-          </button>
-          <h1 class="name">${name}</h1>
-          <h4 class="tech">${tech}</h4>
-          <div class="project-links">
-            <a class="link" href="${repo}" target="_blank" rel="nofollow">code</a>
-            ${ available ? `<a class="link" href="${uri}" target="_blank" rel="nofollow">demo</a>` : '' }
-          </div>
-          <h5 class="blurb">${blurb}</h5>
-          <p class="description">${description}</p>
-          <button type="button" role="nav" class="project-cycle btn">
-            Next Project
-          </button>
-        </div>
-        <figure class="hero-image">
-          <img src="images/${src}" />
-        </figure>
-      </article>
-    `
-  );
-};
+import projectTemplate from 'templates/project-template';
 
 class ProjectView extends SimpleView {
   constructor({ el, project, onNextProject }) {
@@ -34,17 +7,7 @@ class ProjectView extends SimpleView {
 
     this.animating = false;
     this.project = project;
-    this.fragment = this.generateDOM(
-      projectTemplate({
-        src: this.project.file,
-        description: this.project.description,
-        name: this.project.name,
-        tech: this.project.tech,
-        blurb: this.project.blurb,
-        uri: project.available && project.uri,
-        repo: project.repo,
-      })
-    );
+    this.fragment = this.generateDOM(projectTemplate(project));
 
     this.el.addEventListener('click', (event) => {
       if (event.target.classList.contains('project-cycle')) {
@@ -86,14 +49,6 @@ class ProjectView extends SimpleView {
         this.el.appendChild(this.fragment);
   
         oldChild.classList.add('backing-project-view', 'scale-out');
-  
-        if (count % 2) {
-          this.el.children[1].classList.add('blue');
-        } else if (count % 3) {
-          this.el.children[1].classList.add('purple');
-        } else {
-          this.el.children[1].classList.add('lipstick');
-        }
 
         window.scrollTo(0, 0);
 
@@ -102,10 +57,9 @@ class ProjectView extends SimpleView {
           this.el.firstElementChild.classList.remove('backing-project-view', 'scale-in');
 
           oldChild = null;
-          count+=1;
           this.animating = false;
         }, 700);
-      }, 350);  
+      }, 0);  
     }
   }
 }
