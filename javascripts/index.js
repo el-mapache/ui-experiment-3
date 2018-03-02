@@ -5,6 +5,8 @@ import Carousel from 'carousel';
 import ImageView from 'image-view';
 import CarouselItem from 'carousel-item';
 
+import { animator } from 'animation-manager';
+
 const stateManager = {
   currentIndex: 0,
   currentProject: projects[0],
@@ -39,12 +41,14 @@ const carousel = new Carousel({
       });
     }),
   },
+  animator,
 });
-console.log(stateManager.currentProject)
+
 const projectView = new ProjectView({
   el: document.querySelector('.project-view'),
   project: stateManager.currentProject,
   onNextProject: stateManager.getNextProject.bind(stateManager),
+  animator,
 })
 
 new ImagePreloader({

@@ -4,7 +4,7 @@ import carouselItem from 'templates/carousel-item';
 import carouselTemplate from 'templates/carousel-template';
 
 class Carousel extends SimpleView {
-  constructor({ el, sources, props = {} }) {
+  constructor({ el, sources, props = {}, animator }) {
     super({ el });
 
     this.props = props;
@@ -12,7 +12,7 @@ class Carousel extends SimpleView {
     this.track = this.fragment.querySelector('.carousel-track')
     this.items = this.generateItemList(this.fragment.querySelectorAll('.slideable'));
     this.handleAdvance = this.handleAdvance.bind(this);
-    this.animating = false;
+    this.animator = animator;
 
     this.bindEvents([{
       event: ['click', 'touchstart'],
@@ -60,12 +60,7 @@ class Carousel extends SimpleView {
   handleAdvance(event) {
     event.preventDefault();
 
-    // throttling is tricky to get right, and I'd need a queue to handle
-    // scheduling animations, and that means moving a lot of things that css
-    // handles now into JS code. it would be less brittle than this
-    // function is, but having an animating flag is a simple solution that
-    // works fine from a user's vantage point
-    if (this.animating) {
+    if (this.animator.animating()) {
       return;
     }
 
@@ -73,8 +68,6 @@ class Carousel extends SimpleView {
     const activeItem = this.currentItem();
     const currentItem = this.nextItem();
     const nextItem = this.nextItem();
-
-    this.animating = true;
 
     currentItem.style.setProperty('order', 1);
     nextItem.style.setProperty('order', 2);
@@ -87,6 +80,7 @@ class Carousel extends SimpleView {
     // so we don't keep looping over the same elements ad nauseum        
     this.nextItem();
 
+    
     this.track.classList.remove('fixed');
     activeItem.classList.remove('pivot');
     currentItem.classList.add('scale-out', 'pivot');
@@ -95,32 +89,14 @@ class Carousel extends SimpleView {
 
     props.onAdvance(nextItem.getAttribute('data-index'));
 
-    setTimeout(() => {
+    this.animator.describeAnimation('stopCarousel', () => {
       this.track.classList.add('fixed');
-    }, 0); // delay this till the next stack frame
+    }, 0)
 
-    setTimeout(() => {
+    this.animator.describeAnimation('hideLastItem', () => {
       currentItem.classList.remove('current-item', 'scale-out');
-      this.animating = false;
-    }, 700); // magic number is amount of milliseconds of the scale-and-fade animation
+    }, 700);
   }
 }
-
-/**
- * click functionality -- todo? does it matter that users cant click on a project?
- * user clicks on image:
- * 
- * 1.lookup image at that index in the linked list
- * 2. set current node
- * 3. scroll carousel that many spaces - 1 (will only be max 2?)
- *    one issue is that the carousel scroll is coupled to the number of elements/the width
- *      might need a way to programatically specify?
- * run handle advance
- * 
- * So optimistically, the user clicks on the next image, call handle advance
- * otherwise, scroll the carousel left 1 element, then run handleAdvance
- * 
- * probably going to have to set the carousel-track transform using JS and inline style...
- */
 
 export default Carousel;
