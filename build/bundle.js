@@ -579,7 +579,7 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
 
           oldChild = null;
         }, 700);
-      }, 260);
+      }, 280);
     }
   }
 }
@@ -713,14 +713,17 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default 
     this.track.classList.remove('fixed');
     activeItem.classList.remove('pivot');
     currentItem.classList.add('scale-out', 'pivot');
-    nextItem.classList.add('current-item');
-    nextItem.classList.remove('inactive');
+
+    this.animator.describeAnimation('filter', () => {
+      nextItem.classList.add('current-item');
+      nextItem.classList.remove('inactive');
+    }, 100);
 
     props.onAdvance(nextItem.getAttribute('data-index'));
 
     this.animator.describeAnimation('stopCarousel', () => {
       this.track.classList.add('fixed');
-    }, 0);
+    }, 1);
 
     this.animator.describeAnimation('hideLastItem', () => {
       currentItem.classList.remove('current-item', 'scale-out');

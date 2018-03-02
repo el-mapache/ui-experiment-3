@@ -56,7 +56,7 @@ class ProjectView extends SimpleView {
 
           oldChild = null;
         }, 700);
-      }, 260);
+      }, 280);
     }
   }
 }

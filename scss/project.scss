@@ -68,7 +68,7 @@
   }
 
   .scale-out {
-    @include scale-and-fade(scale-and-fade-out, .4s, ease-out, 0) {
+    @include scale-and-fade(scale-and-fade-out, .4s, linear, 0) {
       @include set-keyframes(scale-and-fade-out) {
         @include scale-and-fade-property(to, .7, 0);
       }
@@ -76,7 +76,7 @@
   }
 
   .scale-in {
-    @include scale-and-fade(scale-and-fade-in, .5s, cubic-bezier(.91, .20, .22, .88), 0) {
+    @include scale-and-fade(scale-and-fade-in, .45s, cubic-bezier(.91, .20, .22, .88), 0) {
       @include set-keyframes(scale-and-fade-in) {
         @include scale-and-fade-property(from, .4, 0);
         @include scale-and-fade-property(to, 1, 1);
