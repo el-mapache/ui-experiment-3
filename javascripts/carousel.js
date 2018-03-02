@@ -88,7 +88,7 @@ class Carousel extends SimpleView {
     this.animator.describeAnimation('filter', () => {
       nextItem.classList.add('current-item');
       nextItem.classList.remove('inactive');
-    }, 100);
+    }, 150);
 
     props.onAdvance(nextItem.getAttribute('data-index'));
 

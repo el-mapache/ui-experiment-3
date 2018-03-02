@@ -717,7 +717,7 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default 
     this.animator.describeAnimation('filter', () => {
       nextItem.classList.add('current-item');
       nextItem.classList.remove('inactive');
-    }, 100);
+    }, 150);
 
     props.onAdvance(nextItem.getAttribute('data-index'));
 
