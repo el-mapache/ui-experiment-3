@@ -193,6 +193,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_carousel__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_image_view__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_carousel_item__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_animation_manager__ = __webpack_require__(15);
+
+
 
 
 
@@ -233,13 +236,15 @@ const carousel = new __WEBPACK_IMPORTED_MODULE_3_carousel__["a" /* default */]({
         children: Object(__WEBPACK_IMPORTED_MODULE_4_image_view__["a" /* default */])({ src: project.src })
       });
     })
-  }
+  },
+  animator: __WEBPACK_IMPORTED_MODULE_6_animation_manager__["a" /* animator */]
 });
-console.log(stateManager.currentProject);
+
 const projectView = new __WEBPACK_IMPORTED_MODULE_2_project_view__["a" /* default */]({
   el: document.querySelector('.project-view'),
   project: stateManager.currentProject,
-  onNextProject: stateManager.getNextProject.bind(stateManager)
+  onNextProject: stateManager.getNextProject.bind(stateManager),
+  animator: __WEBPACK_IMPORTED_MODULE_6_animation_manager__["a" /* animator */]
 });
 
 new __WEBPACK_IMPORTED_MODULE_1_image_preloader__["a" /* default */]({
@@ -520,24 +525,24 @@ function ImagePreloader({ imageSelector, containerNode, options = {} }) {
 
 
 class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* default */] {
-  constructor({ el, project, onNextProject }) {
+  constructor({ el, project, onNextProject, animator }) {
     super({ el });
 
+    this.animator = animator;
     this.animating = false;
     this.project = project;
     this.fragment = this.generateDOM(Object(__WEBPACK_IMPORTED_MODULE_1_templates_project_template__["a" /* default */])(project));
 
-    this.el.addEventListener('click', event => {
-      if (event.target.classList.contains('project-cycle')) {
-        onNextProject();
-      }
-    });
+    this.shouldCycle = this.shouldCycle.bind(this);
 
-    this.el.addEventListener('touchstart', event => {
-      if (event.target.classList.contains('project-cycle')) {
-        onNextProject();
-      }
-    });
+    this.el.addEventListener('click', this.shouldCycle);
+    this.el.addEventListener('touchstart', this.shouldCycle);
+  }
+
+  shouldCycle(event) {
+    if (event.target.classList.contains('project-cycle')) {
+      onNextProject();
+    }
   }
 
   willUpdate(nextProject) {
@@ -554,13 +559,11 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
       this.el.innerHTML = '';
       this.el.appendChild(this.fragment);
     } else {
-      if (this.animating) {
+      if (this.animator.animating('scaleInNextProject', 'scaleOutLastProject')) {
         return;
       }
 
-      this.animating = true;
-
-      setTimeout(() => {
+      this.animator.describeAnimation('scaleInNextProject', () => {
         let oldChild = this.el.firstElementChild;
 
         this.fragment.firstElementChild.classList.add('scale-in', 'backing-project-view');
@@ -570,31 +573,18 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
 
         window.scrollTo(0, 0);
 
-        setTimeout(() => {
+        this.animator.describeAnimation('scaleOutLastProject', () => {
           this.el.removeChild(oldChild);
           this.el.firstElementChild.classList.remove('backing-project-view', 'scale-in');
 
           oldChild = null;
-          this.animating = false;
         }, 700);
-      }, 0);
+      }, 260);
     }
   }
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (ProjectView);
-
-/**
- * TODO:
- * There is a bug with orchestrating the animations of the carousel and the project views
- * Since I want a delay between the carousel animation and the beginning of the project 
- * transition, a race condition can be caused when attempting to move to the next carousel
- * item before the end of the project view animations.
- * 
- * This occurs because the carousel view locks ins behavior for 700 milliseconds while animating,
- * and the project view locks its behaviour for 900 milliseconds. Until I have an object to manage these
- * transitions, I'm removing the initial delay in the project view's animation cycle
- */
 
 /***/ }),
 /* 7 */
@@ -644,7 +634,7 @@ const projectTemplate = ({ src, description, name, blurb, tech, uri, repo, avail
 
 
 class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default */] {
-  constructor({ el, sources, props = {} }) {
+  constructor({ el, sources, props = {}, animator }) {
     super({ el });
 
     this.props = props;
@@ -652,7 +642,7 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default 
     this.track = this.fragment.querySelector('.carousel-track');
     this.items = this.generateItemList(this.fragment.querySelectorAll('.slideable'));
     this.handleAdvance = this.handleAdvance.bind(this);
-    this.animating = false;
+    this.animator = animator;
 
     this.bindEvents([{
       event: ['click', 'touchstart'],
@@ -700,12 +690,7 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default 
   handleAdvance(event) {
     event.preventDefault();
 
-    // throttling is tricky to get right, and I'd need a queue to handle
-    // scheduling animations, and that means moving a lot of things that css
-    // handles now into JS code. it would be less brittle than this
-    // function is, but having an animating flag is a simple solution that
-    // works fine from a user's vantage point
-    if (this.animating) {
+    if (this.animator.animating()) {
       return;
     }
 
@@ -713,8 +698,6 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default 
     const activeItem = this.currentItem();
     const currentItem = this.nextItem();
     const nextItem = this.nextItem();
-
-    this.animating = true;
 
     currentItem.style.setProperty('order', 1);
     nextItem.style.setProperty('order', 2);
@@ -735,33 +718,15 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default 
 
     props.onAdvance(nextItem.getAttribute('data-index'));
 
-    setTimeout(() => {
+    this.animator.describeAnimation('stopCarousel', () => {
       this.track.classList.add('fixed');
-    }, 0); // delay this till the next stack frame
+    }, 0);
 
-    setTimeout(() => {
+    this.animator.describeAnimation('hideLastItem', () => {
       currentItem.classList.remove('current-item', 'scale-out');
-      this.animating = false;
-    }, 700); // magic number is amount of milliseconds of the scale-and-fade animation
+    }, 700);
   }
 }
-
-/**
- * click functionality -- todo? does it matter that users cant click on a project?
- * user clicks on image:
- * 
- * 1.lookup image at that index in the linked list
- * 2. set current node
- * 3. scroll carousel that many spaces - 1 (will only be max 2?)
- *    one issue is that the carousel scroll is coupled to the number of elements/the width
- *      might need a way to programatically specify?
- * run handle advance
- * 
- * So optimistically, the user clicks on the next image, call handle advance
- * otherwise, scroll the carousel left 1 element, then run handleAdvance
- * 
- * probably going to have to set the carousel-track transform using JS and inline style...
- */
 
 /* harmony default export */ __webpack_exports__["a"] = (Carousel);
 
@@ -925,6 +890,65 @@ const carouselTemplate = images => {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return animator; });
+const running = [];
+
+// adapted from david walsh
+const animations = {
+  'animation': 'animationend',
+  'MozAnimation': 'animationend',
+  'WebkitAnimation': 'webkitAnimationEnd'
+};
+
+const transitions = {
+  'transition': 'transitionend',
+  'MozTransition': 'transitionend',
+  'WebkitTransition': 'webkitTransitionEnd'
+};
+
+const detectEventType = searchObject => {
+  const el = document.createElement('fake');
+
+  for (let event in searchObject) {
+    if (typeof el.style[event] !== 'undefined') {
+      return searchObject[event];
+    }
+  }
+
+  return null;
+};
+
+const animationEvent = detectEventType(animations);
+const transitionEvent = detectEventType(transitions);
+
+let animator = {
+  describeAnimation(name, fn, delay) {
+    running.push(name);
+
+    setTimeout(() => {
+      fn();
+      running.splice(running.indexOf(name), 1);
+    }, delay);
+  },
+
+  animating(...animations) {
+    if (!animations.length) return running.length;
+
+    for (let a of animations) {
+      if (running.indexOf(a) !== -1) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+};
 
 /***/ })
 /******/ ]);
