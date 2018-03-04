@@ -4,9 +4,11 @@
   grid-column: 1 / -1;
   grid-gap: $small;
   grid-template-columns: 90% 10%;
+  overflow-y: hidden;
   z-index: 100;
 
   .carousel-container {
+    align-self: center;
     overflow: hidden;
   }
   
@@ -52,6 +54,7 @@
     fill: white;
     height: 30%;
     justify-self: center;
+    margin-top: $med;
     transition: transform 0.4s, fill 0.25s;
     width: 50px;
 
@@ -112,6 +115,23 @@
 @include media-query-medium {
   .carousel {
     grid-template-columns: 80% 20%;
+
+    .carousel-track {
+      left: -50%;
+      transform: translateX(50%);
+    }
+
+    .slideable {
+      flex: 1 0 50%;
+    }
+  }
+}
+
+@include media-query-small {
+  .carousel {
+    .carousel-container {
+      align-self: initial;
+    }
 
     .carousel-track {
       left: -100%;

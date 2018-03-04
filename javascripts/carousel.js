@@ -16,7 +16,7 @@ class Carousel extends SimpleView {
 
     this.bindEvents([{
       event: ['click', 'touchstart'],
-      target: 'controls',
+      target: 'caorusel-control',
       handlers: [this.handleAdvance],
     }]);
   }

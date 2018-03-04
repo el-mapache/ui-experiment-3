@@ -85,7 +85,7 @@ h5 {
     .app {
       grid-template-rows: 20% 80%;
       overflow-y: hidden !important; } }
-  @media only screen and (max-width: 320px) {
+  @media only screen and (max-width: 480px) {
     .app {
       grid-template-rows: 20% 60% 20%; } }
 
@@ -167,7 +167,7 @@ h5 {
   .human-view {
     display: initial; } }
 
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 480px) {
   .human-view {
     padding-bottom: 20px; } }
 
@@ -252,17 +252,17 @@ h5 {
     transform: scale(0.7); } }
   .project-view .scale-in {
     -webkit-animation-delay: 0;
-    -webkit-animation-duration: 0.4s;
+    -webkit-animation-duration: 0.6s;
     -webkit-animation-name: scale-and-fade-in;
     -webkit-animation-timing-function: cubic-bezier(0.91, 0.2, 0.22, 0.88);
     -webkit-animation-fill-mode: forwards;
     -moz-animation-delay: 0;
-    -moz-animation-duration: 0.4s;
+    -moz-animation-duration: 0.6s;
     -moz-animation-name: scale-and-fade-in;
     -moz-animation-timing-function: cubic-bezier(0.91, 0.2, 0.22, 0.88);
     -moz-animation-fill-mode: forwards;
     animation-delay: 0;
-    animation-duration: 0.4s;
+    animation-duration: 0.6s;
     animation-name: scale-and-fade-in;
     animation-timing-function: cubic-bezier(0.91, 0.2, 0.22, 0.88);
     animation-fill-mode: forwards; }
@@ -346,8 +346,10 @@ h5 {
   grid-column: 1 / -1;
   grid-gap: 10px;
   grid-template-columns: 90% 10%;
+  overflow-y: hidden;
   z-index: 100; }
   .carousel .carousel-container {
+    align-self: center;
     overflow: hidden; }
   .carousel .carousel-track {
     display: flex;
@@ -379,6 +381,7 @@ h5 {
     fill: white;
     height: 30%;
     justify-self: center;
+    margin-top: 20px;
     transition: transform 0.4s, fill 0.25s;
     width: 50px; }
     .carousel .arrow-icon:before {
@@ -444,10 +447,19 @@ h5 {
   .carousel {
     grid-template-columns: 80% 20%; }
     .carousel .carousel-track {
-      left: -100%;
-      transform: translateX(100%); }
+      left: -50%;
+      transform: translateX(50%); }
     .carousel .slideable {
-      flex: 1 0 100%; } }
+      flex: 1 0 50%; } }
+
+@media only screen and (max-width: 480px) {
+  .carousel .carousel-container {
+    align-self: initial; }
+  .carousel .carousel-track {
+    left: -100%;
+    transform: translateX(100%); }
+  .carousel .slideable {
+    flex: 1 0 100%; } }
 
 @media only screen and (min-width: 481px) and (max-width: 586px) {
   .carousel {

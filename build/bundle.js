@@ -178,7 +178,7 @@ const createDOM = templateString => {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(3);
-module.exports = __webpack_require__(14);
+module.exports = __webpack_require__(15);
 
 
 /***/ }),
@@ -193,7 +193,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_carousel__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_image_view__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_carousel_item__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_animation_manager__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_animation_manager__ = __webpack_require__(14);
 
 
 
@@ -646,7 +646,7 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default 
 
     this.bindEvents([{
       event: ['click', 'touchstart'],
-      target: 'controls',
+      target: 'caorusel-control',
       handlers: [this.handleAdvance]
     }]);
   }
@@ -890,12 +890,6 @@ const carouselTemplate = images => {
 
 /***/ }),
 /* 14 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -952,6 +946,12 @@ let animator = {
     return false;
   }
 };
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
