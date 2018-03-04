@@ -33,7 +33,7 @@
     flex: 1 0 33.333%;
     opacity: .3;
     order: 2;
-    transition: opacity .5s ease-in-out, filter .3s ease-in-out;
+    transition: opacity .25s ease-in-out, filter .2s ease-out;
   }
 
   .pivot {
@@ -90,6 +90,23 @@
   }
 }
 
+@include media-query-medium {
+  .carousel {
+    grid-template-columns: 80% 20%;
+
+    .carousel-track {
+      left: -100%;
+      transform: translateX(100%);
+    }
+  }
+}
+
+@include media-query-landscape {
+  .carousel {
+    display: none;
+  }
+}
+
 @include media-query-large {
   .carousel {
     .carousel-track {
@@ -102,30 +119,22 @@
     }
 
     .arrow-icon {
-     justify-self: initial;
+     justify-self: none;
       transform: none !important;
       transition: none;
     }
   }
 }
 
-@include media-query-medium {
+@include media-query-small {
   .carousel {
-    grid-template-columns: 80% 20%;
-
     .carousel-track {
       left: -100%;
-      transform: translateX(100%);
+      transform: translate(100%);
     }
 
     .slideable {
       flex: 1 0 100%;
     }
-  }
-}
-
-@include media-query-landscape {
-  .carousel {
-    display: none;
   }
 }

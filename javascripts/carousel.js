@@ -94,7 +94,7 @@ class Carousel extends SimpleView {
 
     this.animator.describeAnimation('stopCarousel', () => {
       this.track.classList.add('fixed');
-    }, 1)
+    }, 0)
 
     this.animator.describeAnimation('hideLastItem', () => {
       currentItem.classList.remove('current-item', 'scale-out');

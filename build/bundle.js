@@ -178,7 +178,7 @@ const createDOM = templateString => {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(3);
-module.exports = __webpack_require__(14);
+module.exports = __webpack_require__(15);
 
 
 /***/ }),
@@ -193,7 +193,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_carousel__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_image_view__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_carousel_item__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_animation_manager__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_animation_manager__ = __webpack_require__(14);
 
 
 
@@ -304,7 +304,7 @@ const projects = [{
   color: 'blue'
 }, {
   "name": "SC-Now Recorder",
-  "tech": "vainilla javascript",
+  "tech": "vanilla javascript",
   "blurb": "Record module for SourceNow browser-based audio app",
   "description": "This project was written to drive SCNow, Source-Elements' web-based professional audio collaboration tool. Although I used Matt Diamond's excellent RecorderJS library as a starting point, new pieces of functionality had to be added to meet the project's requirements. Users needed to be able to record up to 90 minutes of uncompressed 2 channel PCM audio, and the app had to do so without causing the computer's fan to kick in (adding unwanted noise to the recording).<br><br>Solving this required two major components. Rather than store all the current audio data in a single buffer in memory, I used a small circular buffer which periodically (every few seconds) read data from the buffer and passed it to a web worker, where it was stored in a temporary file via the FileSystem API. When the recording was finished, a header was computed using the total length of the audio data contained in all the files, and those files were concatenated together into a single Blob object.<br><br>Doing this allowed longer record times because it was no longer necessary to store the complete audio data in runtime memory during recording, and because the complete audio data was kept in memory only once, when the file was being assembled.",
   "uri": "https://now.source-elements.com/#!/",
@@ -336,7 +336,7 @@ const projects = [{
   name: 'Portfolio',
   tech: 'es6, css3, scss',
   blurb: 'My website!',
-  description: 'The website you are currently viewing! Included because it represents a significant reworking of my previous portfolio site. Written to exercise my front-end chops a bit, there are a lot of changes under the hood.<br><br> Bootstrap has been completely removed and replaced with a layout driven by FlexBox and CSS Grid, both of which make designing a page extremely simple. The inline script tag templates and parser are also removed, replaced with ES6 template strings. The page also makes greater use of CSS animations. The javascript driving the site is organized into components, with a top level controller to hold state and provide callbacks and data to the components.',
+  description: 'The website you are currently viewing! Included because it represents a significant reworking of my previous portfolio site. Written to exercise my front-end chops a bit, there are a lot of changes under the hood.<br><br> I removed Bootstrap and replaced it with a layout driven by flexbox and CSS grid layout, both of which make laying out a page extremely simple. The inline script tag templates and parser are also removed, replaced with ES6 template strings. The page also makes greater use of CSS animations. The javascript driving the site is organized into view components, with a top level controller to hold state and provide callbacks and data to the views.',
   uri: 'https://availableforfriendship.com',
   repo: 'https://github.com/el-mapache/website-4.0',
   src: 'portfolio.jpg',
@@ -564,9 +564,10 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
       }
 
       this.animator.describeAnimation('scaleInNextProject', () => {
+        const nextChild = this.fragment.firstElementChild;
         let oldChild = this.el.firstElementChild;
 
-        this.fragment.firstElementChild.classList.add('scale-in', 'backing-project-view');
+        nextChild.classList.add('scale-in', 'backing-project-view');
         this.el.appendChild(this.fragment);
 
         oldChild.classList.add('backing-project-view', 'scale-out');
@@ -575,10 +576,11 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
 
         this.animator.describeAnimation('scaleOutLastProject', () => {
           this.el.removeChild(oldChild);
-          this.el.firstElementChild.classList.remove('backing-project-view', 'scale-in');
+          nextChild.classList.remove('backing-project-view', 'scale-in');
+          nextChild.querySelector('.project-contents').classList.add('slide-in-left');
 
           oldChild = null;
-        }, 700);
+        }, 500);
       }, 280);
     }
   }
@@ -595,20 +597,22 @@ const projectTemplate = ({ src, description, name, blurb, tech, uri, repo, avail
   return `
       <article class="project-view-content ${color}">
         <div class="project-title">
-          <button type="button" role="nav" class="project-cycle btn right">
-            Next Project
-          </button>
-          <h1 class="name">${name}</h1>
-          <h4 class="tech">${tech}</h4>
-          <div class="project-links">
-            <a class="link" href="${repo}" target="_blank" rel="nofollow">code</a>
-            ${available ? `<a class="link" href="${uri}" target="_blank" rel="nofollow">demo</a>` : ''}
+          <div class="project-contents">
+            <button type="button" role="nav" class="project-cycle btn right">
+              Next Project
+            </button>
+            <h1 class="name">${name}</h1>
+            <h4 class="tech">${tech}</h4>
+            <div class="project-links">
+              <a class="link" href="${repo}" target="_blank" rel="nofollow">code</a>
+              ${available ? `<a class="link" href="${uri}" target="_blank" rel="nofollow">demo</a>` : ''}
+            </div>
+            <h5 class="blurb">${blurb}</h5>
+            <p class="description">${description}</p>
+            <button type="button" role="nav" class="project-cycle btn">
+              Next Project
+            </button>
           </div>
-          <h5 class="blurb">${blurb}</h5>
-          <p class="description">${description}</p>
-          <button type="button" role="nav" class="project-cycle btn">
-            Next Project
-          </button>
         </div>
         <figure class="hero-image">
           <img src="images/${src}" />
@@ -723,7 +727,7 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default 
 
     this.animator.describeAnimation('stopCarousel', () => {
       this.track.classList.add('fixed');
-    }, 1);
+    }, 0);
 
     this.animator.describeAnimation('hideLastItem', () => {
       currentItem.classList.remove('current-item', 'scale-out');
@@ -890,45 +894,11 @@ const carouselTemplate = images => {
 
 /***/ }),
 /* 14 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return animator; });
 const running = [];
-
-// adapted from david walsh
-const animations = {
-  'animation': 'animationend',
-  'MozAnimation': 'animationend',
-  'WebkitAnimation': 'webkitAnimationEnd'
-};
-
-const transitions = {
-  'transition': 'transitionend',
-  'MozTransition': 'transitionend',
-  'WebkitTransition': 'webkitTransitionEnd'
-};
-
-const detectEventType = searchObject => {
-  const el = document.createElement('fake');
-
-  for (let event in searchObject) {
-    if (typeof el.style[event] !== 'undefined') {
-      return searchObject[event];
-    }
-  }
-
-  return null;
-};
-
-const animationEvent = detectEventType(animations);
-const transitionEvent = detectEventType(transitions);
 
 let animator = {
   describeAnimation(name, fn, delay) {
@@ -952,6 +922,12 @@ let animator = {
     return false;
   }
 };
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

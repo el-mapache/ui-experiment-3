@@ -41,9 +41,10 @@ class ProjectView extends SimpleView {
       }
 
       this.animator.describeAnimation('scaleInNextProject', () => {
+        const nextChild = this.fragment.firstElementChild;
         let oldChild = this.el.firstElementChild;
 
-        this.fragment.firstElementChild.classList.add('scale-in', 'backing-project-view');
+        nextChild.classList.add('scale-in', 'backing-project-view');
         this.el.appendChild(this.fragment);
   
         oldChild.classList.add('backing-project-view', 'scale-out');
@@ -52,10 +53,11 @@ class ProjectView extends SimpleView {
 
         this.animator.describeAnimation('scaleOutLastProject', () => {
           this.el.removeChild(oldChild);
-          this.el.firstElementChild.classList.remove('backing-project-view', 'scale-in');
+          nextChild.classList.remove('backing-project-view', 'scale-in');
+          nextChild.querySelector('.project-contents').classList.add('slide-in-left');
 
           oldChild = null;
-        }, 700);
+        }, 500);
       }, 280);
     }
   }
