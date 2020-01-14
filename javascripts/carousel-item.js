@@ -1,4 +1,4 @@
-import pureComponent from 'pure-component';
+import pureComponent from './pure-component';
 
 export default function(props) {
   return pureComponent(props, ({ classes, children }) => {

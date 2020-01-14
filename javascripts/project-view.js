@@ -1,4 +1,4 @@
-import SimpleView from 'simple-view';
+import SimpleView from './simple-view';
 let count = 0;
 const projectTemplate = ({ src, description, name, blurb, tech }) => {
   return (

@@ -1,9 +1,10 @@
-import projects from 'project-data';
-import ImagePreloader from 'image-preloader';
-import ProjectView from 'project-view';
-import Carousel from 'carousel';
-import ImageView from 'image-view';
-import CarouselItem from 'carousel-item';
+import '../scss/main.scss';
+import projects from './project-data';
+import ImagePreloader from './image-preloader';
+import ProjectView from './project-view';
+import Carousel from './carousel';
+import ImageView from './image-view';
+import CarouselItem from './carousel-item';
 
 const stateManager = {
   currentProject: projects[0],

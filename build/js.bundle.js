@@ -167,24 +167,19 @@ const createDOM = templateString => {
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(3);
-module.exports = __webpack_require__(11);
-
-
-/***/ }),
-/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_project_data__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_image_preloader__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_project_view__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_carousel__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_image_view__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_carousel_item__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__scss_main_scss__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__scss_main_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__scss_main_scss__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__project_data__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__image_preloader__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__project_view__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__carousel__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__image_view__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__carousel_item__ = __webpack_require__(10);
+
 
 
 
@@ -193,9 +188,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 const stateManager = {
-  currentProject: __WEBPACK_IMPORTED_MODULE_0_project_data__["a" /* default */][0],
+  currentProject: __WEBPACK_IMPORTED_MODULE_1__project_data__["a" /* default */][0],
   onNextItem(index) {
-    this.currentProject = __WEBPACK_IMPORTED_MODULE_0_project_data__["a" /* default */][index];
+    this.currentProject = __WEBPACK_IMPORTED_MODULE_1__project_data__["a" /* default */][index];
     const {
       file: src,
       description,
@@ -215,27 +210,27 @@ const stateManager = {
 };
 
 const carouselEl = document.querySelector('.carousel');
-const carousel = new __WEBPACK_IMPORTED_MODULE_3_carousel__["a" /* default */]({
+const carousel = new __WEBPACK_IMPORTED_MODULE_4__carousel__["a" /* default */]({
   el: carouselEl,
-  sources: __WEBPACK_IMPORTED_MODULE_0_project_data__["a" /* default */].map(project => project.file),
+  sources: __WEBPACK_IMPORTED_MODULE_1__project_data__["a" /* default */].map(project => project.file),
   props: {
     onAdvance: stateManager.onNextItem,
-    children: __WEBPACK_IMPORTED_MODULE_0_project_data__["a" /* default */].map((project, index) => {
-      const active = index === __WEBPACK_IMPORTED_MODULE_0_project_data__["a" /* default */].length - 1 ? 'active' : '';
-      return Object(__WEBPACK_IMPORTED_MODULE_5_carousel_item__["a" /* default */])({
+    children: __WEBPACK_IMPORTED_MODULE_1__project_data__["a" /* default */].map((project, index) => {
+      const active = index === __WEBPACK_IMPORTED_MODULE_1__project_data__["a" /* default */].length - 1 ? 'active' : '';
+      return Object(__WEBPACK_IMPORTED_MODULE_6__carousel_item__["a" /* default */])({
         classes: active,
-        children: Object(__WEBPACK_IMPORTED_MODULE_4_image_view__["a" /* default */])({ src: project.file })
+        children: Object(__WEBPACK_IMPORTED_MODULE_5__image_view__["a" /* default */])({ src: project.file })
       });
     })
   }
 });
 
-const projectView = new __WEBPACK_IMPORTED_MODULE_2_project_view__["a" /* default */]({
+const projectView = new __WEBPACK_IMPORTED_MODULE_3__project_view__["a" /* default */]({
   el: document.querySelector('.project-view'),
   project: stateManager.currentProject
 });
 
-new __WEBPACK_IMPORTED_MODULE_1_image_preloader__["a" /* default */]({
+new __WEBPACK_IMPORTED_MODULE_2__image_preloader__["a" /* default */]({
   imageSelector: 'img',
   containerNode: document,
   options: {}
@@ -244,6 +239,12 @@ new __WEBPACK_IMPORTED_MODULE_1_image_preloader__["a" /* default */]({
   projectView.render();
   preloadFn();
 });
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 /* 4 */
@@ -490,7 +491,7 @@ function ImagePreloader({ imageSelector, containerNode, options = {} }) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_simple_view__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__simple_view__ = __webpack_require__(0);
 
 let count = 0;
 const projectTemplate = ({ src, description, name, blurb, tech }) => {
@@ -509,7 +510,7 @@ const projectTemplate = ({ src, description, name, blurb, tech }) => {
     `;
 };
 
-class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* default */] {
+class ProjectView extends __WEBPACK_IMPORTED_MODULE_0__simple_view__["a" /* default */] {
   constructor({ el, project }) {
     super({ el });
 
@@ -575,8 +576,8 @@ class ProjectView extends __WEBPACK_IMPORTED_MODULE_0_simple_view__["a" /* defau
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_linked_list__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_simple_view__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__linked_list__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__simple_view__ = __webpack_require__(0);
 
 
 
@@ -605,7 +606,7 @@ const carouselTemplate = images => {
   `;
 };
 
-class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default */] {
+class Carousel extends __WEBPACK_IMPORTED_MODULE_1__simple_view__["a" /* default */] {
   constructor({ el, sources, props = {} }) {
     super({ el });
 
@@ -640,7 +641,7 @@ class Carousel extends __WEBPACK_IMPORTED_MODULE_1_simple_view__["a" /* default 
   }
 
   generateItemList(nodeList) {
-    const list = new __WEBPACK_IMPORTED_MODULE_0_linked_list__["a" /* List */]();
+    const list = new __WEBPACK_IMPORTED_MODULE_0__linked_list__["a" /* List */]();
 
     for (const node of nodeList) {
       list.add(node);
@@ -813,11 +814,11 @@ class List {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_pure_component__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pure_component__ = __webpack_require__(1);
 
 
 /* harmony default export */ __webpack_exports__["a"] = (function (props) {
-  return Object(__WEBPACK_IMPORTED_MODULE_0_pure_component__["a" /* default */])(props, ({ src, classes }) => {
+  return Object(__WEBPACK_IMPORTED_MODULE_0__pure_component__["a" /* default */])(props, ({ src, classes }) => {
     const classAttr = classes ? `class="${classes}"` : '';
 
     return `<img ${classAttr} src="images/${src}" />`;
@@ -829,11 +830,11 @@ class List {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_pure_component__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pure_component__ = __webpack_require__(1);
 
 
 /* harmony default export */ __webpack_exports__["a"] = (function (props) {
-  return Object(__WEBPACK_IMPORTED_MODULE_0_pure_component__["a" /* default */])(props, ({ classes, children }) => {
+  return Object(__WEBPACK_IMPORTED_MODULE_0__pure_component__["a" /* default */])(props, ({ classes, children }) => {
     const finalClasses = `slideable${classes}`;
 
     return `
@@ -843,12 +844,6 @@ class List {
       `;
   });
 });;
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

@@ -1,5 +1,5 @@
-import { List } from 'linked-list';
-import SimpleView from 'simple-view';
+import { List } from './linked-list';
+import SimpleView from './simple-view';
 
 const imageTemplate = ({ src, classes, index }) => {
   const finalClasses = `slideable ${classes}`;
